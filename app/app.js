@@ -39,7 +39,7 @@ const Component = () => {
         },
         [
           isEmpty(data)
-            ? m(".loader", "IsLoading")
+            ? m("ion-progress-bar[type='indeterminate']")
             : isPost(data)
             ? data.map((_post, idx) =>
                 m(Post, {

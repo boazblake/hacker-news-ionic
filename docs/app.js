@@ -1,1 +1,1042 @@
-!function(){"use strict";var t="undefined"==typeof global?self:global;if("function"!=typeof t.require){var e={},n={},r={},o={}.hasOwnProperty,i=/^\.\.?(\/|$)/,a=function(t,e){for(var n,r=[],o=(i.test(e)?t+"/"+e:e).split("/"),a=0,c=o.length;a<c;a++)".."===(n=o[a])?r.pop():"."!==n&&""!==n&&r.push(n);return r.join("/")},c=function(t){return t.split("/").slice(0,-1).join("/")},s=function(e,r){var o,i={id:e,exports:{},hot:f&&f.createHot(e)};return n[e]=i,r(i.exports,(o=e,function(e){var n=a(c(o),e);return t.require(n,o)}),i),i.exports},u=function(t){var e=r[t];return e&&t!==e?u(e):t},l=function(t,r){null==r&&(r="/");var i=u(t);if(o.call(n,i))return n[i].exports;if(o.call(e,i))return s(i,e[i]);throw new Error("Cannot find module '"+t+"' from '"+r+"'")};l.alias=function(t,e){r[e]=t};var m=/\.[^.\/]+$/,d=/\/index(\.[^\/]+)?$/;l.register=l.define=function(t,i){if(t&&"object"==typeof t)for(var a in t)o.call(t,a)&&l.register(a,t[a]);else e[t]=i,delete n[t],function(t){if(m.test(t)){var e=t.replace(m,"");o.call(r,e)&&r[e].replace(m,"")!==e+"/index"||(r[e]=t)}if(d.test(t)){var n=t.replace(d,"");o.call(r,n)||(r[n]=t)}}(t)},l.list=function(){var t=[];for(var n in e)o.call(e,n)&&t.push(n);return t};var f=t._hmr&&new t._hmr((function(t,e){return u(a(c(t),e))}),l,e,n);l._cache=n,l.hmr=f&&f.wrap,l.brunch=!0,t.require=l}}(),function(){"undefined"==typeof window||window;require.register("action-sheet.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.showSettings=void 0;var r=e("@ionic/core");t.showSettings=function(t){r.actionSheetController.create({header:"Settings",buttons:[{handler:function(){t.state.mode="light"==t.state.mode?"dark":"light",document.body.classList.toggle("dark"),window.matchMedia("(prefers-color-scheme: dark)")},text:"light"==t.state.mode?"Enter Dark Mode":"Enter Light Mode"}]}).then((function(t){return t.present()}))}})),require.register("app.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.App=void 0;var r=s(e("./components/layout.js")),o=s(e("./components/modal.js")),i=s(e("./components/post.js")),a=s(e("./components/comment.js")),c=e("./utils/index");function s(t){return t&&t.__esModule?t:{default:t}}function u(t,e){var n=Object.keys(t);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(t);e&&(r=r.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),n.push.apply(n,r)}return n}function l(t){for(var e=1;e<arguments.length;e++){var n=null!=arguments[e]?arguments[e]:{};e%2?u(Object(n),!0).forEach((function(e){d(t,e,n[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(n)):u(Object(n)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(n,e))}))}return t}function d(t,e,n){return e in t?Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}var f=function(t){return{init:function(t){return t.getDataById(t)("user")(t.state.user.id)},close:function(t){return t.toggleUser(t)("")},title:"User",contents:t.data.user&&t.data.user.data?[m("code.row",[m(".bold","id: "),t.data.user.data.id]),m("code.row",[m(".bold","created: "),t.data.user.data.created]),m("code.row",[m(".bold","about: "),t.data.user.data.about]),m("code.row",[m(".bold","karma: "),t.data.user.data.karma])]:[],footer:[]}},p=function(){var t=function(t){return t.map},e=function(t){return t.comments&&t.comments.map};return{view:function(n){var r=n.attrs.mdl,s=r.state.route,u=r.data[s].data;return m("ion-list",{id:"component",route:r.state.route,onscroll:(0,c.infiniteScroll)(r)},[(0,c.isEmpty)(u)?m(".loader","IsLoading"):t(u)?u.map((function(t,e){return m(i.default,{key:e,post:t,mdl:r})})):e(u)&&[m("h1",u.title),u.comments.map((function(t,e){return m(a.default,{key:e,comment:t,mdl:r})}))],r.state.showUser&&r.state.user.id&&m(o.default,l(l({},f(r)),{},{mdl:r}))])}}};t.App=function(t){return t.routes.reduce(function(t){return function(e,n){return e["/".concat(n.name)]={onmatch:function(e,n){return(0,c.init)(t)(n)},render:function(){return m(r.default,{mdl:t},m(p,{mdl:t}))}},e}}(t),{})}})),require.register("components/comment.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r={onremove:function(t){var e=t.attrs.mdl;e.state.id=null,e.state.title=null},view:function(t){var e=t.attrs,n=e.key,o=e.mdl,i=e.comment,a=i.comments,c=i.comments_count,s=(i.id,i.time_ago),u=i.content,l=i.level,d=i.user,f=o.state.comment["".concat(n,"-").concat(l)]||!1;return m("ion-card",{style:{minWidth:"88vw"}},m("ion-card-header",m("ion-note","".concat(s," ").concat(d," commented:"))),m("ion-card-content",m.trust(u),c?m("ion-button",{onclick:function(){return o.toggleComments({mdl:o,key:n,level:l})}},"".concat(c," comments")):null,f?a.map((function(t,e){return m(r,{key:e,comment:t,mdl:o})})):null))}},o=r;t.default=o})),require.register("components/layout.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r=function(){return{view:function(t){var e=t.attrs.mdl;return m("ion-header",m("ion-toolbar",e.state.id?m("ion-buttons",{slot:"start"},m("ion-back-button",{oncreate:function(t){t.dom},defaultHref:"/news",onclick:function(t){m.route.set(e.state.prev||"/news")}},e.getPath(e.state.prev||"/news"))):m("ion-title",{size:"large"},m("h1",e.getPath(e.state.route)))))}}},o=function(t){var e=t.attrs.mdl.routes.filter((function(t){return 1==t.name.split("/").length}));return{view:function(t){var n=t.attrs.mdl;return m("ion-footer",m("ion-tab-bar",m("ion-tabs",[e.map((function(t){return m("ion-tab",{tab:"".concat(t.name)})})),m("ion-tab-bar",{slot:"bottom"},[e.map((function(t){return m("ion-tab-button",{onclick:function(){console.log("r.name",t.name),m.route.set("/".concat(t.name))},tab:"".concat(t.name)},[m("ion-label",t.name),m("ion-icon",{name:t.icon})])})),m("ion-tab-button",{onclick:function(){return showSettings(n)}},[m("ion-label","settings"),m("ion-icon",{name:"ellipsis-vertical-outline"})])])])))}}},i=function(t){var e=t.attrs.mdl;return{view:function(t){var n=t.children;return m("ion-app",n&&[m(r,{mdl:e}),m("ion-content",n),m(o,{mdl:e})])}}};t.default=i})),require.register("components/modal.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r={view:function(t){var e=t.attrs,n=e.title,r=e.model,o=e.close;return m(".modal-header",[m("h4.title",n),m("button.closeBtn",{onclick:function(){return o(r)}},"X")])}},o={view:function(t){var e=t.children;return m(".modal-contents",e)}},i={view:function(t){var e=t.children;return m(".modal-footer",e)}},a={oninit:function(t){var e=t.attrs;return(0,e.init)(e.model)},view:function(t){var e=t.attrs,n=e.title,a=e.contents,c=e.footer,s=e.model,u=e.close;return m("section.modalContainer",m(".modal",{},[m(r,{title:n,model:s,close:u}),m(o,a),m(i,c)]))}};t.default=a})),require.register("components/post.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r={view:function(t){var e=t.attrs,n=e.mdl,r=e.post,o=r.comments_count,i=r.domain,a=r.id,c=r.points,s=r.time_ago,u=r.title,l=r.url,d=r.user;return m("ion-item",{detail:o,lines:"none"},m("ion-card",{style:{minWidth:"88vw"},onclick:function(){console.log(a,u),n.state.title=u,n.state.id=a,n.state.showComment=!n.state.showComment,o&&m.route.set("/item/:key",{key:a})}},m("ion-card-header",m("h1",u)),m("ion-card-content",m("ion-grid",m("ion-row",m("ion-link","from ",m("a.",{target:"_blank",href:l,rel:"noopener"},"".concat(i)))),m("ion-row",m("ion-label","".concat(s," by "),m("ion-chip",{slot:"start",color:"primary"},d)))),m("ion-item",{lines:"none"},m("ion-badge",{slot:"end"},"".concat(c," pts")),o?m("ion-badge",{slot:"start"},"".concat(o," comments")):null))))}};t.default=r})),require.register("index.js",(function(t,e,n){"use strict";var r=e("./model.js"),o=e("./app.js"),i=document.body;function a(t){return t<668?"phone":t<920?"tablet":"desktop"}n.hot&&n.hot.accept();var c=window.innerWidth;r.model.state.profile=a(c),"serviceWorker"in navigator&&window.addEventListener("load",(function(){navigator.serviceWorker.register("./service-worker.js").then((function(t){console.log("SW registered: ",t)})).catch((function(t){console.log("SW registration failed: ",t)}))})),function t(){var e=window.innerWidth;if(c!==e){c=e;var n=r.model.state.profile;r.model.state.profile=a(e),n!=r.model.state.profile&&m.redraw()}requestAnimationFrame(t)}(),m.route(i,"/news",(0,o.App)(r.model)),m.route.set("/news")})),require.register("initialize.js",(function(t,e,n){"use strict";document.addEventListener("DOMContentLoaded",(function(){e("./index.js")}))})),require.register("model.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.model=void 0;var r=[{name:"news",icon:"newspaper-outline"},{name:"newest",icon:"pulse-outline"},{name:"ask",icon:"chatbox-ellipses-outline"},{name:"show",icon:"eye-outline"},{name:"jobs",icon:"body-outline"},{name:"item/:key",icon:null},{name:"user/:key",icon:null}],o=r.reduce((function(t,e){return t[e.name]=function(t){return function(e){var n=t.split("/")[0];return"https://api.hnpwa.com/v0/".concat(n,"/").concat(e,".json")}}(e.name),t}),{}),i={getData:function(t){return function(e){t.state.showComment=!1,t.state.comment={},t.state.route=e;var n=t.getPath(e);t.data[e]?t.data[e]:t.data[e]={data:[]},t.reqs.http(t)(t.reqs.urls[n](t.state.page))(e)}},getDataById:function(t){return function(e){return function(n){t.state.prev=t.state.route,"item"==e&&(t.state.route=e),t.data[e]?t.data[e]:t.data[e]={data:[]},t.reqs.http(t)(t.reqs.urls["".concat(e,"/:key")](n))(e)}}},routes:r,getPath:function(t){return t.split("/")[1]},reqs:{urls:o,http:function(t){return function(e){return function(n){return m.request({url:e,method:"GET"}).then((function(e){return t.data[n].data=e,t}))}}}},data:{},state:{id:null,title:null,key:"",url:"",route:"",page:1,profile:"",tabsShowing:!1,comment:{},showModal:!1,showUser:!1,user:{id:""}},toggleComments:function(t){var e=t.mdl,n=t.key,r=t.level;return e.state.comment["".concat(n,"-").concat(r)]?e.state.comment["".concat(n,"-").concat(r)]=!e.state.comment["".concat(n,"-").concat(r)]:e.state.comment["".concat(n,"-").concat(r)]=!0},toggleModal:function(t){return t.state.showModal=!t.state.showModal},toggleUser:function(t){return function(e){t.state.user.id=e,t.state.showUser=!t.state.showUser}}};t.model=i})),require.register("toast.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var r=e("@ionic/core"),o=function(){return{view:function(t){var e=t.attrs.mdl;return m("ion-toast",{oncreate:function(t){var n=t.dom;r.toastController.create({component:n,message:e.toast.msg(),duration:e.toast.duration(),showCloseButton:!0,animated:!0,color:e.toast.status()?"success":"danger"}).then((function(t){return t.present()}))}})}}};t.default=o})),require.register("utils/animations.js",(function(t,e,n){"use strict";function r(t){return function(t){if(Array.isArray(t))return o(t)}(t)||function(t){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(t))return Array.from(t)}(t)||function(t,e){if(!t)return;if("string"==typeof t)return o(t,e);var n=Object.prototype.toString.call(t).slice(8,-1);"Object"===n&&t.constructor&&(n=t.constructor.name);if("Map"===n||"Set"===n)return Array.from(t);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return o(t,e)}(t)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function o(t,e){(null==e||e>t.length)&&(e=t.length);for(var n=0,r=new Array(e);n<e;n++)r[n]=t[n];return r}Object.defineProperty(t,"__esModule",{value:!0}),t.animateChildrenLimitsExit=t.slideOutAnimation=t.animate=t.animateChildrenLimitsEntrance=t.animateChildrenEntrance=t.animateFooterEntrance=t.animateModalEntrance=t.animateHeaderEntrance=t.animateComponentEntrance=void 0;t.animateComponentEntrance=function(t){return function(e){var n=e.dom;return n.style.opacity=0,setTimeout((function(){n.classList.toggle("expandOpen"),n.style.opacity=1}),100*t+20)}};t.animateHeaderEntrance=function(t){var e=t.dom;e.style.opacity=0,e.classList.toggle("slideRight"),e.style.opacity=1};t.animateModalEntrance=function(t){var e=t.dom;e.style.opacity=0,e.classList.toggle("expandOpen"),e.style.opacity=1};t.animateFooterEntrance=function(t){var e=t.dom;e.style.opacity=0,e.classList.toggle("slideLeft"),e.style.opacity=1};t.animateChildrenEntrance=function(t){return r(t.dom.children).map((function(t,e){t.style.opacity=0,setTimeout((function(){t.classList.toggle("slideRight"),t.style.opacity=1}),10*(e+1))}))};t.animateChildrenLimitsEntrance=function(t){return function(e){var n=e.dom;n.style.opacity=0,setTimeout((function(){n.classList.toggle("slideDown"),n.style.opacity=1}),200*(t+1))}};t.animate=function(t){return function(e){var n=e.dom;n.style.opacity=0,setTimeout((function(){n.classList.toggle(t),n.style.opacity=1}),200)}};t.slideOutAnimation=function(t){var e=t.dom;return console.log(e),new Promise((function(){return e.classList.remove("expandOpen"),setTimeout((function(){e.style.opacity=0}),200)}))};t.animateChildrenLimitsExit=function(t){var e=t.dom;return new Promise((function(){r(e.children).reverse().map((function(t,e){return setTimeout((function(){t.style.display="none"}),100*e)}))}))}})),require.register("utils/helpers.js",(function(t,e,n){"use strict";function r(t,e){return function(t){if(Array.isArray(t))return t}(t)||function(t,e){if("undefined"==typeof Symbol||!(Symbol.iterator in Object(t)))return;var n=[],r=!0,o=!1,i=void 0;try{for(var a,c=t[Symbol.iterator]();!(r=(a=c.next()).done)&&(n.push(a.value),!e||n.length!==e);r=!0);}catch(t){o=!0,i=t}finally{try{r||null==c.return||c.return()}finally{if(o)throw i}}return n}(t,e)||function(t,e){if(!t)return;if("string"==typeof t)return o(t,e);var n=Object.prototype.toString.call(t).slice(8,-1);"Object"===n&&t.constructor&&(n=t.constructor.name);if("Map"===n||"Set"===n)return Array.from(t);if("Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))return o(t,e)}(t,e)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()}function o(t,e){(null==e||e>t.length)&&(e=t.length);for(var n=0,r=new Array(e);n<e;n++)r[n]=t[n];return r}Object.defineProperty(t,"__esModule",{value:!0}),t.init=t.infiniteScroll=t.isEmpty=void 0;t.isEmpty=function(t){return 0==t.length};t.infiniteScroll=function(t){return function(e){var n=t.state.route,r=t.data[n].data.length,o=10*r*t.state.scrollPos;e.target.scrollTop-t.state.scrollPos>=o&&(t.state.scrollPos++,e.target.scrollTop,r<t.data[n].limit&&t.getData(t)(n))}};t.init=function(t){return function(e){t.state.page=1;var n=r(e.split("/"),3),o=(n[0],n[1]),i=n[2];i?(console.log("id",i),t.getDataById(t)(o)(i)):t.getData(t)(e)}}})),require.register("utils/index.js",(function(t,e,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=e("./animations.js");Object.keys(r).forEach((function(e){"default"!==e&&"__esModule"!==e&&(e in t&&t[e]===r[e]||Object.defineProperty(t,e,{enumerable:!0,get:function(){return r[e]}}))}));var o=e("./helpers.js");Object.keys(o).forEach((function(e){"default"!==e&&"__esModule"!==e&&(e in t&&t[e]===o[e]||Object.defineProperty(t,e,{enumerable:!0,get:function(){return o[e]}}))}))})),require.register("___globals___",(function(t,e,n){window.m=e("mithril"),window.Stream=e("mithril-stream")}))}(),require("___globals___");
+(function() {
+  'use strict';
+
+  var globals = typeof global === 'undefined' ? self : global;
+  if (typeof globals.require === 'function') return;
+
+  var modules = {};
+  var cache = {};
+  var aliases = {};
+  var has = {}.hasOwnProperty;
+
+  var expRe = /^\.\.?(\/|$)/;
+  var expand = function(root, name) {
+    var results = [], part;
+    var parts = (expRe.test(name) ? root + '/' + name : name).split('/');
+    for (var i = 0, length = parts.length; i < length; i++) {
+      part = parts[i];
+      if (part === '..') {
+        results.pop();
+      } else if (part !== '.' && part !== '') {
+        results.push(part);
+      }
+    }
+    return results.join('/');
+  };
+
+  var dirname = function(path) {
+    return path.split('/').slice(0, -1).join('/');
+  };
+
+  var localRequire = function(path) {
+    return function expanded(name) {
+      var absolute = expand(dirname(path), name);
+      return globals.require(absolute, path);
+    };
+  };
+
+  var initModule = function(name, definition) {
+    var hot = hmr && hmr.createHot(name);
+    var module = {id: name, exports: {}, hot: hot};
+    cache[name] = module;
+    definition(module.exports, localRequire(name), module);
+    return module.exports;
+  };
+
+  var expandAlias = function(name) {
+    var val = aliases[name];
+    return (val && name !== val) ? expandAlias(val) : name;
+  };
+
+  var _resolve = function(name, dep) {
+    return expandAlias(expand(dirname(name), dep));
+  };
+
+  var require = function(name, loaderPath) {
+    if (loaderPath == null) loaderPath = '/';
+    var path = expandAlias(name);
+
+    if (has.call(cache, path)) return cache[path].exports;
+    if (has.call(modules, path)) return initModule(path, modules[path]);
+
+    throw new Error("Cannot find module '" + name + "' from '" + loaderPath + "'");
+  };
+
+  require.alias = function(from, to) {
+    aliases[to] = from;
+  };
+
+  var extRe = /\.[^.\/]+$/;
+  var indexRe = /\/index(\.[^\/]+)?$/;
+  var addExtensions = function(bundle) {
+    if (extRe.test(bundle)) {
+      var alias = bundle.replace(extRe, '');
+      if (!has.call(aliases, alias) || aliases[alias].replace(extRe, '') === alias + '/index') {
+        aliases[alias] = bundle;
+      }
+    }
+
+    if (indexRe.test(bundle)) {
+      var iAlias = bundle.replace(indexRe, '');
+      if (!has.call(aliases, iAlias)) {
+        aliases[iAlias] = bundle;
+      }
+    }
+  };
+
+  require.register = require.define = function(bundle, fn) {
+    if (bundle && typeof bundle === 'object') {
+      for (var key in bundle) {
+        if (has.call(bundle, key)) {
+          require.register(key, bundle[key]);
+        }
+      }
+    } else {
+      modules[bundle] = fn;
+      delete cache[bundle];
+      addExtensions(bundle);
+    }
+  };
+
+  require.list = function() {
+    var list = [];
+    for (var item in modules) {
+      if (has.call(modules, item)) {
+        list.push(item);
+      }
+    }
+    return list;
+  };
+
+  var hmr = globals._hmr && new globals._hmr(_resolve, require, modules, cache);
+  require._cache = cache;
+  require.hmr = hmr && hmr.wrap;
+  require.brunch = true;
+  globals.require = require;
+})();
+
+(function() {
+var global = typeof window === 'undefined' ? this : window;
+var __makeRelativeRequire = function(require, mappings, pref) {
+  var none = {};
+  var tryReq = function(name, pref) {
+    var val;
+    try {
+      val = require(pref + '/node_modules/' + name);
+      return val;
+    } catch (e) {
+      if (e.toString().indexOf('Cannot find module') === -1) {
+        throw e;
+      }
+
+      if (pref.indexOf('node_modules') !== -1) {
+        var s = pref.split('/');
+        var i = s.lastIndexOf('node_modules');
+        var newPref = s.slice(0, i).join('/');
+        return tryReq(name, newPref);
+      }
+    }
+    return none;
+  };
+  return function(name) {
+    if (name in mappings) name = mappings[name];
+    if (!name) return;
+    if (name[0] !== '.' && pref) {
+      var val = tryReq(name, pref);
+      if (val !== none) return val;
+    }
+    return require(name);
+  }
+};
+require.register("action-sheet.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.showSettings = void 0;
+
+var _core = require("@ionic/core");
+
+var showSettings = function showSettings(mdl) {
+  var showAction = function showAction() {
+    _core.actionSheetController.create({
+      header: "Settings",
+      buttons: [{
+        handler: function handler() {
+          mdl.state.mode = mdl.state.mode == "light" ? "dark" : "light";
+          document.body.classList.toggle("dark");
+          window.matchMedia("(prefers-color-scheme: dark)");
+        },
+        text: mdl.state.mode == "light" ? "Enter Dark Mode" : "Enter Light Mode"
+      }]
+    }).then(function (x) {
+      return x.present();
+    });
+  };
+
+  showAction();
+};
+
+exports.showSettings = showSettings;
+});
+
+;require.register("app.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.App = void 0;
+
+var _layout = _interopRequireDefault(require("./components/layout.js"));
+
+var _modal = _interopRequireDefault(require("./components/modal.js"));
+
+var _post2 = _interopRequireDefault(require("./components/post.js"));
+
+var _comment = _interopRequireDefault(require("./components/comment.js"));
+
+var _index = require("./utils/index");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var userModalInfo = function userModalInfo(mdl) {
+  return {
+    init: function init(mdl) {
+      return mdl.getDataById(mdl)("user")(mdl.state.user.id);
+    },
+    close: function close(mdl) {
+      return mdl.toggleUser(mdl)("");
+    },
+    title: "User",
+    contents: mdl.data.user && mdl.data.user.data ? [m("code.row", [m(".bold", "id: "), mdl.data.user.data.id]), m("code.row", [m(".bold", "created: "), mdl.data.user.data.created]), m("code.row", [m(".bold", "about: "), mdl.data.user.data.about]), m("code.row", [m(".bold", "karma: "), mdl.data.user.data.karma])] : [],
+    footer: []
+  };
+};
+
+var Component = function Component() {
+  var isPost = function isPost(data) {
+    return data.map;
+  };
+
+  var isComment = function isComment(data) {
+    return data.comments && data.comments.map;
+  };
+
+  return {
+    view: function view(_ref) {
+      var mdl = _ref.attrs.mdl;
+      var route = mdl.state.route;
+      var data = mdl.data[route].data;
+      return m("ion-list", {
+        id: "component",
+        route: mdl.state.route,
+        onscroll: (0, _index.infiniteScroll)(mdl)
+      }, [(0, _index.isEmpty)(data) ? m("ion-progress-bar[type='indeterminate']") : isPost(data) ? data.map(function (_post, idx) {
+        return m(_post2["default"], {
+          key: idx,
+          post: _post,
+          mdl: mdl
+        });
+      }) : isComment(data) && [m("h1", data.title), data.comments.map(function (c, idx) {
+        return m(_comment["default"], {
+          key: idx,
+          comment: c,
+          mdl: mdl
+        });
+      })], mdl.state.showUser && mdl.state.user.id && m(_modal["default"], _objectSpread(_objectSpread({}, userModalInfo(mdl)), {}, {
+        mdl: mdl
+      }))]);
+    }
+  };
+};
+
+var makeRoutes = function makeRoutes(mdl) {
+  return function (routes, route) {
+    routes["/".concat(route.name)] = {
+      onmatch: function onmatch(_, path) {
+        return (0, _index.init)(mdl)(path);
+      },
+      render: function render() {
+        return m(_layout["default"], {
+          mdl: mdl
+        }, m(Component, {
+          mdl: mdl
+        }));
+      }
+    };
+    return routes;
+  };
+};
+
+var App = function App(mdl) {
+  return mdl.routes.reduce(makeRoutes(mdl), {});
+};
+
+exports.App = App;
+});
+
+;require.register("components/comment.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var Comment = {
+  onremove: function onremove(_ref) {
+    var mdl = _ref.attrs.mdl;
+    mdl.state.id = null;
+    mdl.state.title = null;
+  },
+  view: function view(_ref2) {
+    var _ref2$attrs = _ref2.attrs,
+        key = _ref2$attrs.key,
+        mdl = _ref2$attrs.mdl,
+        _ref2$attrs$comment = _ref2$attrs.comment,
+        comments = _ref2$attrs$comment.comments,
+        comments_count = _ref2$attrs$comment.comments_count,
+        id = _ref2$attrs$comment.id,
+        time_ago = _ref2$attrs$comment.time_ago,
+        content = _ref2$attrs$comment.content,
+        level = _ref2$attrs$comment.level,
+        user = _ref2$attrs$comment.user;
+    var state = {
+      showComments: mdl.state.comment["".concat(key, "-").concat(level)] || false
+    };
+    return m("ion-card", {
+      style: {
+        minWidth: "60vw"
+      }
+    }, m("ion-card-header", m("ion-note", "".concat(time_ago, " ").concat(user, " commented:"))), m("ion-card-content", m.trust(content), comments_count ? m("ion-button", {
+      onclick: function onclick() {
+        return mdl.toggleComments({
+          mdl: mdl,
+          key: key,
+          level: level
+        });
+      }
+    }, "".concat(comments_count, " comments")) : null, state.showComments ? comments.map(function (c, idx) {
+      return m(Comment, {
+        key: idx,
+        comment: c,
+        mdl: mdl
+      });
+    }) : null));
+  }
+};
+var _default = Comment;
+exports["default"] = _default;
+});
+
+;require.register("components/layout.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var Toolbar = function Toolbar() {
+  return {
+    view: function view(_ref) {
+      var mdl = _ref.attrs.mdl;
+      return m("ion-header", m("ion-toolbar", mdl.state.id ? m("ion-buttons", {
+        slot: "start"
+      }, m("ion-back-button", {
+        oncreate: function oncreate(_ref2) {
+          var dom = _ref2.dom;
+        },
+        //console.log("dom", dom),
+        defaultHref: "/news",
+        onclick: function onclick(e) {
+          m.route.set(mdl.state.prev || "/news");
+        }
+      }, mdl.getPath(mdl.state.prev || "/news"))) : m("ion-title", {
+        size: "large"
+      }, m("h1", mdl.getPath(mdl.state.route)))));
+    }
+  };
+};
+
+var Footer = function Footer(_ref3) {
+  var mdl = _ref3.attrs.mdl;
+  var Routes = mdl.routes.filter(function (r) {
+    return r.name.split("/").length == 1;
+  });
+  return {
+    view: function view(_ref4) {
+      var mdl = _ref4.attrs.mdl;
+      return m("ion-footer", m("ion-tab-bar", m("ion-tabs", [// m(
+      //   "ion-router",
+      //   // m("ion-route-redirect", { from: "!", to: "#!" }),
+      //   mdl.routes.map((r) => {
+      //     console.log("r", `${r.name}`),
+      //       [
+      //         // m("ion-route-redirect", {
+      //         //   from: `!/${r.name}`,
+      //         //   to: `#!/${r.name}`,
+      //         // }),
+      //         m("ion-route", {
+      //           push: (p) => console.log("push", p),
+      //           // root: "#/!",
+      //           // url: `#!/${r.name}`,
+      //           // component:
+      //         }),
+      //       ]
+      //   })
+      // ),
+      Routes.map(function (r) {
+        return m("ion-tab", {
+          tab: "".concat(r.name)
+        });
+      }), m("ion-tab-bar", {
+        slot: "bottom"
+      }, [Routes.map(function (r) {
+        return m("ion-tab-button", {
+          onclick: function onclick() {
+            console.log("r.name", r.name);
+            m.route.set("/".concat(r.name));
+          },
+          tab: "".concat(r.name)
+        }, [m("ion-label", r.name), m("ion-icon", {
+          name: r.icon
+        })]);
+      }), m("ion-tab-button", {
+        onclick: function onclick() {
+          return showSettings(mdl);
+        }
+      }, [m("ion-label", "settings"), m("ion-icon", {
+        name: "ellipsis-vertical-outline"
+      })])])])));
+    }
+  };
+};
+
+var Layout = function Layout(_ref5) {
+  var mdl = _ref5.attrs.mdl;
+  return {
+    view: function view(_ref6) {
+      var children = _ref6.children;
+      return m("ion-app", children && [m(Toolbar, {
+        mdl: mdl
+      }), m("ion-content", children), m(Footer, {
+        mdl: mdl
+      })]);
+    }
+  };
+};
+
+var _default = Layout;
+exports["default"] = _default;
+});
+
+;require.register("components/modal.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var Header = {
+  view: function view(_ref) {
+    var _ref$attrs = _ref.attrs,
+        title = _ref$attrs.title,
+        model = _ref$attrs.model,
+        close = _ref$attrs.close;
+    return m(".modal-header", [m("h4.title", title), m("button.closeBtn", {
+      onclick: function onclick() {
+        return close(model);
+      }
+    }, "X")]);
+  }
+};
+var Content = {
+  view: function view(_ref2) {
+    var children = _ref2.children;
+    return m(".modal-contents", children);
+  }
+};
+var Footer = {
+  view: function view(_ref3) {
+    var children = _ref3.children;
+    return m(".modal-footer", children);
+  }
+};
+var Modal = {
+  oninit: function oninit(_ref4) {
+    var _ref4$attrs = _ref4.attrs,
+        init = _ref4$attrs.init,
+        model = _ref4$attrs.model;
+    return init(model);
+  },
+  view: function view(_ref5) {
+    var _ref5$attrs = _ref5.attrs,
+        title = _ref5$attrs.title,
+        contents = _ref5$attrs.contents,
+        footer = _ref5$attrs.footer,
+        model = _ref5$attrs.model,
+        close = _ref5$attrs.close;
+    return m("section.modalContainer", m(".modal", {}, [m(Header, {
+      title: title,
+      model: model,
+      close: close
+    }), m(Content, contents), m(Footer, footer)]));
+  }
+};
+var _default = Modal;
+exports["default"] = _default;
+});
+
+;require.register("components/post.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var Post = {
+  view: function view(_ref) {
+    var _ref$attrs = _ref.attrs,
+        mdl = _ref$attrs.mdl,
+        _ref$attrs$post = _ref$attrs.post,
+        comments_count = _ref$attrs$post.comments_count,
+        domain = _ref$attrs$post.domain,
+        id = _ref$attrs$post.id,
+        points = _ref$attrs$post.points,
+        time_ago = _ref$attrs$post.time_ago,
+        title = _ref$attrs$post.title,
+        url = _ref$attrs$post.url,
+        user = _ref$attrs$post.user;
+    return m("ion-item", {
+      detail: comments_count,
+      lines: "none"
+    }, m("ion-card", {
+      style: {
+        minWidth: "60vw"
+      },
+      onclick: function onclick() {
+        console.log(id, title);
+        mdl.state.title = title;
+        mdl.state.id = id;
+        mdl.state.showComment = !mdl.state.showComment;
+        comments_count && m.route.set("/item/:key", {
+          key: id
+        });
+      }
+    }, m("ion-card-header", m("h1", title)), m("ion-card-content", m("ion-grid", m("ion-row", m("ion-link", "from ", m("a.", {
+      target: "_blank",
+      href: url,
+      rel: "noopener"
+    }, "".concat(domain)))), m("ion-row", m("ion-label", "".concat(time_ago, " by "), m("ion-chip", {
+      slot: "start",
+      color: "primary" // onclick: () => mdl.toggleUser(mdl)(user),
+
+    }, user)))), m("ion-item", {
+      lines: "none"
+    }, m("ion-badge", {
+      slot: "end"
+    }, "".concat(points, " pts")), comments_count ? m("ion-badge", {
+      slot: "start"
+    }, "".concat(comments_count, " comments")) : null))));
+  }
+};
+var _default = Post;
+exports["default"] = _default;
+});
+
+;require.register("index.js", function(exports, require, module) {
+"use strict";
+
+var _model = require("./model.js");
+
+var _app = require("./app.js");
+
+var root = document.body;
+
+if (module.hot) {
+  module.hot.accept();
+}
+
+if ('development' !== "production") {
+  console.log("Looks like we are in development mode!");
+} // Styles
+
+
+function getProfile(w) {
+  if (w < 668) return "phone";
+  if (w < 920) return "tablet";
+  return "desktop";
+}
+
+var winW = window.innerWidth;
+_model.model.state.profile = getProfile(winW);
+
+function checkWidth() {
+  var w = window.innerWidth;
+
+  if (winW !== w) {
+    winW = w;
+    var lastProfile = _model.model.state.profile;
+    _model.model.state.profile = getProfile(w);
+    if (lastProfile != _model.model.state.profile) m.redraw();
+  }
+
+  requestAnimationFrame(checkWidth);
+}
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./service-worker.js").then(function (registration) {
+      console.log("SW registered: ", registration);
+    })["catch"](function (registrationError) {
+      console.log("SW registration failed: ", registrationError);
+    });
+  });
+}
+
+checkWidth();
+m.route(root, "/news", (0, _app.App)(_model.model));
+m.route.set("/news");
+});
+
+;require.register("initialize.js", function(exports, require, module) {
+"use strict";
+
+document.addEventListener("DOMContentLoaded", function () {
+  require("./index.js");
+});
+});
+
+;require.register("model.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.model = void 0;
+var routes = [{
+  name: "news",
+  icon: "newspaper-outline"
+}, {
+  name: "newest",
+  icon: "pulse-outline"
+}, {
+  name: "ask",
+  icon: "chatbox-ellipses-outline"
+}, {
+  name: "show",
+  icon: "eye-outline"
+}, {
+  name: "jobs",
+  icon: "body-outline"
+}, {
+  name: "item/:key",
+  icon: null
+}, {
+  name: "user/:key",
+  icon: null
+}];
+
+var url = function url(route) {
+  return function (page) {
+    var path = route.split("/")[0];
+    return "https://api.hnpwa.com/v0/".concat(path, "/").concat(page, ".json");
+  };
+};
+
+var urls = routes.reduce(function (req, route) {
+  req[route.name] = url(route.name);
+  return req;
+}, {});
+
+var http = function http(mdl) {
+  return function (url) {
+    return function (route) {
+      return m.request({
+        url: url,
+        method: "GET"
+      }).then(function (data) {
+        mdl.data[route].data = data;
+        return mdl;
+      });
+    };
+  };
+};
+
+var reqs = {
+  urls: urls,
+  http: http
+};
+
+var getData = function getData(mdl) {
+  return function (route) {
+    mdl.state.showComment = false;
+    mdl.state.comment = {};
+    mdl.state.route = route;
+    var path = mdl.getPath(route);
+    mdl.data[route] ? mdl.data[route] : mdl.data[route] = {
+      data: []
+    };
+    mdl.reqs.http(mdl)(mdl.reqs.urls[path](mdl.state.page))(route);
+  };
+};
+
+var getDataById = function getDataById(mdl) {
+  return function (route) {
+    return function (id) {
+      mdl.state.prev = mdl.state.route;
+
+      if (route == "item") {
+        mdl.state.route = route;
+      }
+
+      mdl.data[route] ? mdl.data[route] : mdl.data[route] = {
+        data: []
+      };
+      mdl.reqs.http(mdl)(mdl.reqs.urls["".concat(route, "/:key")](id))(route);
+    };
+  };
+};
+
+var getPath = function getPath(route) {
+  return route.split("/")[1];
+};
+
+var state = {
+  id: null,
+  title: null,
+  key: "",
+  url: "",
+  route: "",
+  page: 1,
+  profile: "",
+  tabsShowing: false,
+  comment: {},
+  showModal: false,
+  showUser: false,
+  user: {
+    id: ""
+  }
+};
+
+var toggleComments = function toggleComments(_ref) {
+  var mdl = _ref.mdl,
+      key = _ref.key,
+      level = _ref.level;
+  return mdl.state.comment["".concat(key, "-").concat(level)] ? mdl.state.comment["".concat(key, "-").concat(level)] = !mdl.state.comment["".concat(key, "-").concat(level)] : mdl.state.comment["".concat(key, "-").concat(level)] = true;
+};
+
+var toggleModal = function toggleModal(mdl) {
+  return mdl.state.showModal = !mdl.state.showModal;
+};
+
+var toggleUser = function toggleUser(mdl) {
+  return function (id) {
+    mdl.state.user.id = id;
+    mdl.state.showUser = !mdl.state.showUser;
+  };
+};
+
+var model = {
+  getData: getData,
+  getDataById: getDataById,
+  routes: routes,
+  getPath: getPath,
+  reqs: reqs,
+  data: {},
+  state: state,
+  toggleComments: toggleComments,
+  toggleModal: toggleModal,
+  toggleUser: toggleUser
+};
+exports.model = model;
+});
+
+;require.register("toast.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _core = require("@ionic/core");
+
+var Toast = function Toast() {
+  return {
+    view: function view(_ref) {
+      var mdl = _ref.attrs.mdl;
+      return m('ion-toast', {
+        oncreate: function oncreate(_ref2) {
+          var dom = _ref2.dom;
+
+          _core.toastController.create({
+            component: dom,
+            message: mdl.toast.msg(),
+            duration: mdl.toast.duration(),
+            showCloseButton: true,
+            animated: true,
+            color: mdl.toast.status() ? 'success' : 'danger'
+          }).then(function (toast) {
+            return toast.present();
+          });
+        }
+      });
+    }
+  };
+};
+
+var _default = Toast;
+exports["default"] = _default;
+});
+
+;require.register("utils/animations.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.animateChildrenLimitsExit = exports.slideOutAnimation = exports.animate = exports.animateChildrenLimitsEntrance = exports.animateChildrenEntrance = exports.animateFooterEntrance = exports.animateModalEntrance = exports.animateHeaderEntrance = exports.animateComponentEntrance = void 0;
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var animateComponentEntrance = function animateComponentEntrance(idx) {
+  return function (_ref) {
+    var dom = _ref.dom;
+    dom.style.opacity = 0;
+    return setTimeout(function () {
+      dom.classList.toggle('expandOpen');
+      dom.style.opacity = 1;
+    }, idx * 100 + 20);
+  };
+};
+
+exports.animateComponentEntrance = animateComponentEntrance;
+
+var animateHeaderEntrance = function animateHeaderEntrance(_ref2) {
+  var dom = _ref2.dom;
+  dom.style.opacity = 0;
+  dom.classList.toggle('slideRight');
+  dom.style.opacity = 1;
+};
+
+exports.animateHeaderEntrance = animateHeaderEntrance;
+
+var animateModalEntrance = function animateModalEntrance(_ref3) {
+  var dom = _ref3.dom;
+  dom.style.opacity = 0;
+  dom.classList.toggle('expandOpen');
+  dom.style.opacity = 1;
+};
+
+exports.animateModalEntrance = animateModalEntrance;
+
+var animateFooterEntrance = function animateFooterEntrance(_ref4) {
+  var dom = _ref4.dom;
+  dom.style.opacity = 0;
+  dom.classList.toggle('slideLeft');
+  dom.style.opacity = 1;
+};
+
+exports.animateFooterEntrance = animateFooterEntrance;
+
+var animateChildrenEntrance = function animateChildrenEntrance(_ref5) {
+  var dom = _ref5.dom;
+
+  var children = _toConsumableArray(dom.children);
+
+  return children.map(function (child, idx) {
+    child.style.opacity = 0;
+    setTimeout(function () {
+      child.classList.toggle('slideRight');
+      child.style.opacity = 1;
+    }, (idx + 1) * 10);
+  });
+};
+
+exports.animateChildrenEntrance = animateChildrenEntrance;
+
+var animateChildrenLimitsEntrance = function animateChildrenLimitsEntrance(idx) {
+  return function (_ref6) {
+    var dom = _ref6.dom;
+    dom.style.opacity = 0;
+    setTimeout(function () {
+      dom.classList.toggle('slideDown');
+      dom.style.opacity = 1;
+    }, (idx + 1) * 200);
+  };
+};
+
+exports.animateChildrenLimitsEntrance = animateChildrenLimitsEntrance;
+
+var animate = function animate(dir) {
+  return function (_ref7) {
+    var dom = _ref7.dom;
+    dom.style.opacity = 0;
+    setTimeout(function () {
+      dom.classList.toggle(dir);
+      dom.style.opacity = 1;
+    }, 200);
+  };
+};
+
+exports.animate = animate;
+
+var slideOutAnimation = function slideOutAnimation(_ref8) {
+  var dom = _ref8.dom;
+  console.log(dom);
+  return new Promise(function () {
+    dom.classList.remove('expandOpen');
+    return setTimeout(function () {
+      dom.style.opacity = 0; // dom.classList.add('reverseAnimation', 'hatch')
+    }, 200);
+  });
+};
+
+exports.slideOutAnimation = slideOutAnimation;
+
+var animateChildrenLimitsExit = function animateChildrenLimitsExit(_ref9) {
+  var dom = _ref9.dom;
+  return new Promise(function () {
+    _toConsumableArray(dom.children).reverse().map(function (child, idx) {
+      return setTimeout(function () {
+        child.style.display = 'none';
+      }, idx * 100);
+    });
+  });
+};
+
+exports.animateChildrenLimitsExit = animateChildrenLimitsExit;
+});
+
+;require.register("utils/helpers.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.init = exports.infiniteScroll = exports.isEmpty = void 0;
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var isEmpty = function isEmpty(data) {
+  return data.length == 0;
+};
+
+exports.isEmpty = isEmpty;
+
+var infiniteScroll = function infiniteScroll(mdl) {
+  return function (e) {
+    var route = mdl.state.route;
+    var length = mdl.data[route].data.length;
+    var setpoint = 10 * length * mdl.state.scrollPos;
+
+    if (e.target.scrollTop - mdl.state.scrollPos >= setpoint) {
+      mdl.state.scrollPos++ + e.target.scrollTop;
+
+      if (length < mdl.data[route].limit) {
+        mdl.getData(mdl)(route);
+      }
+    }
+  };
+};
+
+exports.infiniteScroll = infiniteScroll;
+
+var init = function init(mdl) {
+  return function (path) {
+    // window.scrollToTop()
+    mdl.state.page = 1;
+
+    var _path$split = path.split("/"),
+        _path$split2 = _slicedToArray(_path$split, 3),
+        _ = _path$split2[0],
+        route = _path$split2[1],
+        id = _path$split2[2];
+
+    if (id) {
+      console.log("id", id);
+      mdl.getDataById(mdl)(route)(id);
+    } else {
+      mdl.getData(mdl)(path);
+    }
+  };
+};
+
+exports.init = init;
+});
+
+;require.register("utils/index.js", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _animations = require("./animations.js");
+
+Object.keys(_animations).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _animations[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _animations[key];
+    }
+  });
+});
+
+var _helpers = require("./helpers.js");
+
+Object.keys(_helpers).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _helpers[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _helpers[key];
+    }
+  });
+});
+});
+
+;require.register("___globals___", function(exports, require, module) {
+  
+
+// Auto-loaded modules from config.npm.globals.
+window.m = require("mithril");
+window.Stream = require("mithril-stream");
+
+
+});})();require('___globals___');
+
+
+//# sourceMappingURL=app.js.map

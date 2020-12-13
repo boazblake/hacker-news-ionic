@@ -17,7 +17,7 @@ const Comment = {
     return m(
       "ion-card",
       {
-        style: { minWidth: "88vw" },
+        style: { minWidth: "60vw" },
       },
       m("ion-card-header", m("ion-note", `${time_ago} ${user} commented:`)),
       m(

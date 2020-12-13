@@ -207,19 +207,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var IsLoading = m(".holder", [m(".preloader", [m("div"), m("div"), m("div"), m("div"), m("div"), m("div"), m("div")])]);
-var plus = "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-5v5h-2v-5h-5v-2h5v-5h2v5h5v2z";
-var minus = "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 13h-12v-2h12v2z";
-
-var toUnFurl = function toUnFurl() {
-  var bool = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-  return bool ? m("path.highlight", {
-    d: minus
-  }) : m("path.highlight", {
-    d: plus
-  });
-};
-
 var userModalInfo = function userModalInfo(mdl) {
   return {
     init: function init(mdl) {
@@ -248,30 +235,17 @@ var Component = function Component() {
       var mdl = _ref.attrs.mdl;
       var route = mdl.state.route;
       var data = mdl.data[route].data;
-
-      var showItem = function showItem(id) {
-        var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-        mdl.state.title = title;
-        mdl.state.id = id;
-        mdl.state.showComment = !mdl.state.showComment;
-      };
-
       return m("ion-list", {
         id: "component",
         route: mdl.state.route,
         onscroll: (0, _index.infiniteScroll)(mdl)
-      }, [(0, _index.isEmpty)(data) ? m(".loader", IsLoading) : isPost(data) ? data.map(function (_post, idx) {
+      }, [(0, _index.isEmpty)(data) ? m(".loader", "IsLoading") : isPost(data) ? data.map(function (_post, idx) {
         return m(_post2["default"], {
           key: idx,
           post: _post,
-          mdl: mdl,
-          showItem: showItem
+          mdl: mdl
         });
-      }) : isComment(data) && [m(".titleContainer", [m("button.backBtn", {
-        onclick: function onclick() {
-          return m.route.set(mdl.state.prev || "/news");
-        }
-      }, "Back"), m("h1.title", data.title)]), data.comments.map(function (c, idx) {
+      }) : isComment(data) && [m("h1", data.title), data.comments.map(function (c, idx) {
         return m(_comment["default"], {
           key: idx,
           comment: c,
@@ -355,29 +329,31 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var Comment = {
-  view: function view(_ref) {
-    var _ref$attrs = _ref.attrs,
-        key = _ref$attrs.key,
-        mdl = _ref$attrs.mdl,
-        _ref$attrs$comment = _ref$attrs.comment,
-        comments = _ref$attrs$comment.comments,
-        comments_count = _ref$attrs$comment.comments_count,
-        id = _ref$attrs$comment.id,
-        time_ago = _ref$attrs$comment.time_ago,
-        content = _ref$attrs$comment.content,
-        level = _ref$attrs$comment.level,
-        user = _ref$attrs$comment.user;
+  onremove: function onremove(_ref) {
+    var mdl = _ref.attrs.mdl;
+    mdl.state.id = null;
+    mdl.state.title = null;
+  },
+  view: function view(_ref2) {
+    var _ref2$attrs = _ref2.attrs,
+        key = _ref2$attrs.key,
+        mdl = _ref2$attrs.mdl,
+        _ref2$attrs$comment = _ref2$attrs.comment,
+        comments = _ref2$attrs$comment.comments,
+        comments_count = _ref2$attrs$comment.comments_count,
+        id = _ref2$attrs$comment.id,
+        time_ago = _ref2$attrs$comment.time_ago,
+        content = _ref2$attrs$comment.content,
+        level = _ref2$attrs$comment.level,
+        user = _ref2$attrs$comment.user;
     var state = {
       showComments: mdl.state.comment["".concat(key, "-").concat(level)] || false
     };
-    return m(".commentContainer", {
-      id: "".concat(id)
-    }, [m(".", [m("a.highlight.cursor", {
-      onclick: function onclick() {
-        mdl.toggleUser(mdl)(user);
-        console.log(user);
+    return m("ion-card", {
+      style: {
+        minWidth: "88vw"
       }
-    }, " ".concat(user)), m("code", " ".concat(time_ago))]), m(".nudgeRight", [m("code", m.trust(content)), comments_count ? m("button.commentBtn", {
+    }, m("ion-card-header", m("ion-note", "".concat(time_ago, " ").concat(user, " commented:"))), m("ion-card-content", m.trust(content), comments_count ? m("ion-button", {
       onclick: function onclick() {
         return mdl.toggleComments({
           mdl: mdl,
@@ -385,13 +361,13 @@ var Comment = {
           level: level
         });
       }
-    }, [m("svg.toggleCommentSvg", toUnFurl(state.showComments)), "".concat(comments_count, " comments")]) : "", state.showComments ? comments.map(function (c, idx) {
+    }, "".concat(comments_count, " comments")) : null, state.showComments ? comments.map(function (c, idx) {
       return m(Comment, {
         key: idx,
         comment: c,
         mdl: mdl
       });
-    }) : ""])]);
+    }) : null));
   }
 };
 var _default = Comment;
@@ -410,22 +386,52 @@ var Toolbar = function Toolbar() {
   return {
     view: function view(_ref) {
       var mdl = _ref.attrs.mdl;
-      return m("ion-header", m("ion-toolbar", m("ion-title", {
+      return m("ion-header", m("ion-toolbar", mdl.state.id ? m("ion-buttons", {
+        slot: "start"
+      }, m("ion-back-button", {
+        oncreate: function oncreate(_ref2) {
+          var dom = _ref2.dom;
+        },
+        //console.log("dom", dom),
+        defaultHref: "/news",
+        onclick: function onclick(e) {
+          m.route.set(mdl.state.prev || "/news");
+        }
+      }, mdl.getPath(mdl.state.prev || "/news"))) : m("ion-title", {
         size: "large"
       }, mdl.getPath(mdl.state.route))));
     }
   };
 };
 
-var Footer = function Footer(_ref2) {
-  var mdl = _ref2.attrs.mdl;
+var Footer = function Footer(_ref3) {
+  var mdl = _ref3.attrs.mdl;
   var Routes = mdl.routes.filter(function (r) {
     return r.name.split("/").length == 1;
   });
   return {
-    view: function view(_ref3) {
-      var mdl = _ref3.attrs.mdl;
-      return m("ion-footer", m("ion-tab-bar", m("ion-tabs", [Routes.map(function (r) {
+    view: function view(_ref4) {
+      var mdl = _ref4.attrs.mdl;
+      return m("ion-footer", m("ion-tab-bar", m("ion-tabs", [// m(
+      //   "ion-router",
+      //   // m("ion-route-redirect", { from: "!", to: "#!" }),
+      //   mdl.routes.map((r) => {
+      //     console.log("r", `${r.name}`),
+      //       [
+      //         // m("ion-route-redirect", {
+      //         //   from: `!/${r.name}`,
+      //         //   to: `#!/${r.name}`,
+      //         // }),
+      //         m("ion-route", {
+      //           push: (p) => console.log("push", p),
+      //           // root: "#/!",
+      //           // url: `#!/${r.name}`,
+      //           // component:
+      //         }),
+      //       ]
+      //   })
+      // ),
+      Routes.map(function (r) {
         return m("ion-tab", {
           tab: "".concat(r.name)
         });
@@ -452,11 +458,11 @@ var Footer = function Footer(_ref2) {
   };
 };
 
-var Layout = function Layout(_ref4) {
-  var mdl = _ref4.attrs.mdl;
+var Layout = function Layout(_ref5) {
+  var mdl = _ref5.attrs.mdl;
   return {
-    view: function view(_ref5) {
-      var children = _ref5.children;
+    view: function view(_ref6) {
+      var children = _ref6.children;
       return m("ion-app", children && [m(Toolbar, {
         mdl: mdl
       }), m("ion-content", children), m(Footer, {
@@ -538,7 +544,6 @@ var Post = {
   view: function view(_ref) {
     var _ref$attrs = _ref.attrs,
         mdl = _ref$attrs.mdl,
-        showItem = _ref$attrs.showItem,
         _ref$attrs$post = _ref$attrs.post,
         comments_count = _ref$attrs$post.comments_count,
         domain = _ref$attrs$post.domain,
@@ -549,29 +554,36 @@ var Post = {
         url = _ref$attrs$post.url,
         user = _ref$attrs$post.user;
     return m("ion-item", {
-      detail: true
-    }, m("ion-grid", m("ion-header.ion-no-border", m("ion-toolbar", m("h3", title))), m("ion-badge", "".concat(comments_count, " comments")), m("ion-row", m("ion-col", m("ion-grid", m("ion-row", m("ion-link", "from ", m("a.", {
+      detail: comments_count,
+      lines: "none"
+    }, m("ion-card", {
+      style: {
+        minWidth: "88vw"
+      },
+      onclick: function onclick() {
+        console.log(id, title);
+        mdl.state.title = title;
+        mdl.state.id = id;
+        mdl.state.showComment = !mdl.state.showComment;
+        comments_count && m.route.set("/item/:key", {
+          key: id
+        });
+      }
+    }, m("ion-card-header", m("h1", title)), m("ion-card-content", m("ion-grid", m("ion-row", m("ion-link", "from ", m("a.", {
       target: "_blank",
       href: url,
       rel: "noopener"
-    }, "".concat(domain)))), m("ion-item-group", m("ion-label", "by", m("ion-chip", {
+    }, "".concat(domain)))), m("ion-row", m("ion-label", "".concat(time_ago, " by "), m("ion-chip", {
       slot: "start",
       color: "primary" // onclick: () => mdl.toggleUser(mdl)(user),
 
-    }, user))), m("ion-item", {
+    }, user)))), m("ion-item", {
       lines: "none"
     }, m("ion-badge", {
       slot: "end"
-    }, points), m("ion-note", {
+    }, "".concat(points, " pts")), comments_count ? m("ion-badge", {
       slot: "start"
-    }, time_ago), comments_count && m(m.route.Link, {
-      slot: "end",
-      "class": "bottom",
-      href: "/item/".concat(id),
-      onclick: function onclick() {
-        return showItem(id, title);
-      }
-    })))))));
+    }, "".concat(comments_count, " comments")) : null))));
   }
 };
 var _default = Post;
@@ -665,10 +677,10 @@ var routes = [{
   icon: "body-outline"
 }, {
   name: "item/:key",
-  icon: "newspaper-outline"
+  icon: null
 }, {
   name: "user/:key",
-  icon: "newspaper-outline"
+  icon: null
 }];
 
 var url = function url(route) {
@@ -737,13 +749,14 @@ var getPath = function getPath(route) {
 };
 
 var state = {
+  id: null,
+  title: null,
   key: "",
   url: "",
   route: "",
   page: 1,
   profile: "",
   tabsShowing: false,
-  title: "",
   comment: {},
   showModal: false,
   showUser: false,
@@ -1006,7 +1019,12 @@ var init = function init(mdl) {
         route = _path$split2[1],
         id = _path$split2[2];
 
-    return id ? mdl.getDataById(mdl)(route)(id) : mdl.getData(mdl)(path);
+    if (id) {
+      console.log("id", id);
+      mdl.getDataById(mdl)(route)(id);
+    } else {
+      mdl.getData(mdl)(path);
+    }
   };
 };
 

@@ -5,7 +5,23 @@ const Toolbar = () => {
         "ion-header",
         m(
           "ion-toolbar",
-          m("ion-title", { size: "large" }, mdl.getPath(mdl.state.route))
+          mdl.state.id
+            ? m(
+                "ion-buttons",
+                { slot: "start" },
+                m(
+                  "ion-back-button",
+                  {
+                    oncreate: ({ dom }) => {}, //console.log("dom", dom),
+                    defaultHref: "/news",
+                    onclick: (e) => {
+                      m.route.set(mdl.state.prev || "/news")
+                    },
+                  },
+                  mdl.getPath(mdl.state.prev || "/news")
+                )
+              )
+            : m("ion-title", { size: "large" }, mdl.getPath(mdl.state.route))
         )
       ),
   }
@@ -20,6 +36,25 @@ const Footer = ({ attrs: { mdl } }) => {
         m(
           "ion-tab-bar",
           m("ion-tabs", [
+            // m(
+            //   "ion-router",
+            //   // m("ion-route-redirect", { from: "!", to: "#!" }),
+            //   mdl.routes.map((r) => {
+            //     console.log("r", `${r.name}`),
+            //       [
+            //         // m("ion-route-redirect", {
+            //         //   from: `!/${r.name}`,
+            //         //   to: `#!/${r.name}`,
+            //         // }),
+            //         m("ion-route", {
+            //           push: (p) => console.log("push", p),
+            //           // root: "#/!",
+            //           // url: `#!/${r.name}`,
+            //           // component:
+            //         }),
+            //       ]
+            //   })
+            // ),
             Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
             m("ion-tab-bar", { slot: "bottom" }, [
               Routes.map((r) =>

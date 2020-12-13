@@ -2,68 +2,68 @@ const Post = {
   view: ({
     attrs: {
       mdl,
-      showItem,
       post: { comments_count, domain, id, points, time_ago, title, url, user },
     },
   }) => {
     return m(
       "ion-item",
       {
-        detail: true,
+        detail: comments_count,
+        lines: "none",
       },
       m(
-        "ion-grid",
-        m("ion-header.ion-no-border", m("ion-toolbar", m("h3", title))),
-        m("ion-badge", `${comments_count} comments`),
+        "ion-card",
+        {
+          style: { minWidth: "88vw" },
+          onclick: () => {
+            console.log(id, title)
+            mdl.state.title = title
+            mdl.state.id = id
+            mdl.state.showComment = !mdl.state.showComment
+            comments_count && m.route.set("/item/:key", { key: id })
+          },
+        },
+        m("ion-card-header", m("h1", title)),
         m(
-          "ion-row",
+          "ion-card-content",
           m(
-            "ion-col",
-
+            "ion-grid",
             m(
-              "ion-grid",
+              "ion-row",
               m(
-                "ion-row",
+                "ion-link",
+                "from ",
                 m(
-                  "ion-link",
-                  "from ",
-                  m(
-                    "a.",
-                    { target: "_blank", href: url, rel: "noopener" },
-                    `${domain}`
-                  )
+                  "a.",
+                  { target: "_blank", href: url, rel: "noopener" },
+                  `${domain}`
                 )
-              ),
+              )
+            ),
+            m(
+              "ion-row",
               m(
-                "ion-item-group",
+                "ion-label",
+                `${time_ago} by `,
                 m(
-                  "ion-label",
-                  "by",
-                  m(
-                    "ion-chip",
-                    {
-                      slot: "start",
-                      color: "primary",
-                      // onclick: () => mdl.toggleUser(mdl)(user),
-                    },
-                    user
-                  )
+                  "ion-chip",
+                  {
+                    slot: "start",
+                    color: "primary",
+                    // onclick: () => mdl.toggleUser(mdl)(user),
+                  },
+                  user
                 )
-              ),
-              m(
-                "ion-item",
-                { lines: "none" },
-                m("ion-badge", { slot: "end" }, points),
-                m("ion-note", { slot: "start" }, time_ago),
-                comments_count &&
-                  m(m.route.Link, {
-                    slot: "end",
-                    class: "bottom",
-                    href: `/item/${id}`,
-                    onclick: () => showItem(id, title),
-                  })
               )
             )
+          ),
+          m(
+            "ion-item",
+            { lines: "none" },
+            m("ion-badge", { slot: "end" }, `${points} pts`),
+            comments_count
+              ? m("ion-badge", { slot: "start" }, `${comments_count} comments`)
+              : null
           )
         )
       )

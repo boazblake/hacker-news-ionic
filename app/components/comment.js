@@ -1,4 +1,8 @@
 const Comment = {
+  onremove: ({ attrs: { mdl } }) => {
+    mdl.state.id = null
+    mdl.state.title = null
+  },
   view: ({
     attrs: {
       key,
@@ -11,47 +15,31 @@ const Comment = {
     }
 
     return m(
-      ".commentContainer",
+      "ion-card",
       {
-        id: `${id}`,
+        style: { minWidth: "88vw" },
       },
-      [
-        m(".", [
-          m(
-            "a.highlight.cursor",
-            {
-              onclick: () => {
-                mdl.toggleUser(mdl)(user)
-                console.log(user)
-              },
-            },
-            ` ${user}`
-          ),
-          m("code", ` ${time_ago}`),
-        ]),
-        m(".nudgeRight", [
-          m("code", m.trust(content)),
-          comments_count
-            ? m(
-                "button.commentBtn",
-                { onclick: () => mdl.toggleComments({ mdl, key, level }) },
-                [
-                  m("svg.toggleCommentSvg", toUnFurl(state.showComments)),
-                  `${comments_count} comments`,
-                ]
-              )
-            : "",
-          state.showComments
-            ? comments.map((c, idx) =>
-                m(Comment, {
-                  key: idx,
-                  comment: c,
-                  mdl,
-                })
-              )
-            : "",
-        ]),
-      ]
+      m("ion-card-header", m("ion-note", `${time_ago} ${user} commented:`)),
+      m(
+        "ion-card-content",
+        m.trust(content),
+        comments_count
+          ? m(
+              "ion-button",
+              { onclick: () => mdl.toggleComments({ mdl, key, level }) },
+              `${comments_count} comments`
+            )
+          : null,
+        state.showComments
+          ? comments.map((c, idx) =>
+              m(Comment, {
+                key: idx,
+                comment: c,
+                mdl,
+              })
+            )
+          : null
+      )
     )
   },
 }

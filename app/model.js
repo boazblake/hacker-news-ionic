@@ -4,8 +4,8 @@ const routes = [
   { name: "ask", icon: "chatbox-ellipses-outline" },
   { name: "show", icon: "eye-outline" },
   { name: "jobs", icon: "body-outline" },
-  { name: "item/:key", icon: "newspaper-outline" },
-  { name: "user/:key", icon: "newspaper-outline" },
+  { name: "item/:key", icon: null },
+  { name: "user/:key", icon: null },
 ]
 
 const url = (route) => (page) => {
@@ -57,13 +57,14 @@ const getDataById = (mdl) => (route) => (id) => {
 const getPath = (route) => route.split("/")[1]
 
 const state = {
+  id: null,
+  title: null,
   key: "",
   url: "",
   route: "",
   page: 1,
   profile: "",
   tabsShowing: false,
-  title: "",
   comment: {},
   showModal: false,
   showUser: false,

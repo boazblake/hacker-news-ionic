@@ -399,7 +399,7 @@ var Toolbar = function Toolbar() {
         }
       }, mdl.getPath(mdl.state.prev || "/news"))) : m("ion-title", {
         size: "large"
-      }, mdl.getPath(mdl.state.route))));
+      }, m("h1", mdl.getPath(mdl.state.route)))));
     }
   };
 };
@@ -1011,6 +1011,7 @@ exports.infiniteScroll = infiniteScroll;
 
 var init = function init(mdl) {
   return function (path) {
+    // window.scrollToTop()
     mdl.state.page = 1;
 
     var _path$split = path.split("/"),

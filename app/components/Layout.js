@@ -21,7 +21,11 @@ const Toolbar = () => {
                   mdl.getPath(mdl.state.prev || "/news")
                 )
               )
-            : m("ion-title", { size: "large" }, mdl.getPath(mdl.state.route))
+            : m(
+                "ion-title",
+                { size: "large" },
+                m("h1", mdl.getPath(mdl.state.route))
+              )
         )
       ),
   }

@@ -13,6 +13,7 @@ export const infiniteScroll = (mdl) => (e) => {
 }
 
 export const init = (mdl) => (path) => {
+  // window.scrollToTop()
   mdl.state.page = 1
   let [_, route, id] = path.split("/")
   if (id) {

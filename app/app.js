@@ -33,7 +33,6 @@ const Component = () => {
       return m(
         "ion-list",
         {
-          id: "component",
           route: mdl.state.route,
           onscroll: infiniteScroll(mdl),
         },

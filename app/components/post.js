@@ -14,7 +14,7 @@ const Post = {
       m(
         "ion-card",
         {
-          style: { minWidth: "60vw" },
+          id: "post-list-card",
           onclick: () => {
             console.log(id, title)
             mdl.state.title = title

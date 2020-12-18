@@ -38,54 +38,57 @@ const Footer = ({ attrs: { mdl } }) => {
       return m(
         "ion-footer",
         m(
-          "ion-tab-bar",
-          m("ion-tabs", [
-            // m(
-            //   "ion-router",
-            //   // m("ion-route-redirect", { from: "!", to: "#!" }),
-            //   mdl.routes.map((r) => {
-            //     console.log("r", `${r.name}`),
-            //       [
-            //         // m("ion-route-redirect", {
-            //         //   from: `!/${r.name}`,
-            //         //   to: `#!/${r.name}`,
-            //         // }),
-            //         m("ion-route", {
-            //           push: (p) => console.log("push", p),
-            //           // root: "#/!",
-            //           // url: `#!/${r.name}`,
-            //           // component:
-            //         }),
-            //       ]
-            //   })
-            // ),
-            Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
-            m("ion-tab-bar", { slot: "bottom" }, [
-              Routes.map((r) =>
+          "ion-toolbar",
+          m(
+            "ion-tab-bar",
+            m("ion-tabs", [
+              // m(
+              //   "ion-router",
+              //   // m("ion-route-redirect", { from: "!", to: "#!" }),
+              //   mdl.routes.map((r) => {
+              //     console.log("r", `${r.name}`),
+              //       [
+              //         // m("ion-route-redirect", {
+              //         //   from: `!/${r.name}`,
+              //         //   to: `#!/${r.name}`,
+              //         // }),
+              //         m("ion-route", {
+              //           push: (p) => console.log("push", p),
+              //           // root: "#/!",
+              //           // url: `#!/${r.name}`,
+              //           // component:
+              //         }),
+              //       ]
+              //   })
+              // ),
+              Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
+              m("ion-tab-bar", { slot: "bottom" }, [
+                Routes.map((r) =>
+                  m(
+                    "ion-tab-button",
+                    {
+                      onclick: () => {
+                        console.log("r.name", r.name)
+                        m.route.set(`/${r.name}`)
+                      },
+                      tab: `${r.name}`,
+                    },
+                    [m("ion-label", r.name), m("ion-icon", { name: r.icon })]
+                  )
+                ),
                 m(
                   "ion-tab-button",
                   {
-                    onclick: () => {
-                      console.log("r.name", r.name)
-                      m.route.set(`/${r.name}`)
-                    },
-                    tab: `${r.name}`,
+                    onclick: () => showSettings(mdl),
                   },
-                  [m("ion-label", r.name), m("ion-icon", { name: r.icon })]
-                )
-              ),
-              m(
-                "ion-tab-button",
-                {
-                  onclick: () => showSettings(mdl),
-                },
-                [
-                  m("ion-label", "settings"),
-                  m("ion-icon", { name: "ellipsis-vertical-outline" }),
-                ]
-              ),
-            ]),
-          ])
+                  [
+                    m("ion-label", "settings"),
+                    m("ion-icon", { name: "ellipsis-vertical-outline" }),
+                  ]
+                ),
+              ]),
+            ])
+          )
         )
       )
     },

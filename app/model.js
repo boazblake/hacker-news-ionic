@@ -69,6 +69,7 @@ const state = {
   showModal: false,
   showUser: false,
   user: { id: "" },
+  mode: "light",
 }
 
 const toggleComments = ({ mdl, key, level }) =>

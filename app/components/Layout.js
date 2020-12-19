@@ -1,3 +1,5 @@
+import { showSettings } from "./action-sheet"
+
 const Toolbar = () => {
   return {
     view: ({ attrs: { mdl } }) =>

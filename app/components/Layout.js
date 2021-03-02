@@ -14,7 +14,6 @@ const Toolbar = () => {
                 m(
                   "ion-back-button",
                   {
-                    oncreate: ({ dom }) => {}, //console.log("dom", dom),
                     defaultHref: "/news",
                     onclick: (e) => {
                       m.route.set(mdl.state.prev || "/news")

@@ -1,4 +1,8 @@
+const commentIdFromRoute = (route) => route.split("/")[2]
+
 const Comment = {
+  oncreate: ({ attrs: { mdl } }) =>
+    (mdl.state.id = commentIdFromRoute(m.route.get())),
   onremove: ({ attrs: { mdl } }) => {
     mdl.state.id = null
     mdl.state.title = null
@@ -19,14 +23,24 @@ const Comment = {
       {
         style: { minWidth: "60vw" },
       },
-      m("ion-card-header", m("ion-note", `${time_ago} ${user} commented:`)),
+      m(
+        "ion-card-header",
+        m(
+          "ion-toolbar",
+          m("ion-chip", { slot: "start", color: "primary" }, user),
+          m("ion-note", { slot: "end" }, time_ago)
+        )
+      ),
       m(
         "ion-card-content",
         m.trust(content),
         comments_count
           ? m(
               "ion-button",
-              { onclick: () => mdl.toggleComments({ mdl, key, level }) },
+              {
+                expand: "full",
+                onclick: () => mdl.toggleComments({ mdl, key, level }),
+              },
               `${comments_count} comments`
             )
           : null,

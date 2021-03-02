@@ -16,9 +16,7 @@ const Post = {
         {
           id: "post-list-card",
           onclick: () => {
-            console.log(id, title)
             mdl.state.title = title
-            mdl.state.id = id
             mdl.state.showComment = !mdl.state.showComment
             comments_count && m.route.set("/item/:key", { key: id })
           },
@@ -42,25 +40,29 @@ const Post = {
             ),
             m(
               "ion-row",
-              m(
-                "ion-label",
-                `${time_ago} by `,
+              user &&
                 m(
-                  "ion-chip",
-                  {
-                    slot: "start",
-                    color: "primary",
-                    // onclick: () => mdl.toggleUser(mdl)(user),
-                  },
-                  user
+                  "ion-label",
+                  `${time_ago} by `,
+                  m(
+                    "ion-chip",
+                    {
+                      slot: "start",
+                      color: "primary",
+                      onclick: () => {
+                        console.log("user", user)
+                      },
+                      // onclick: () => mdl.toggleUser(mdl)(user),
+                    },
+                    user
+                  )
                 )
-              )
             )
           ),
           m(
             "ion-item",
             { lines: "none" },
-            m("ion-badge", { slot: "end" }, `${points} pts`),
+            points && m("ion-badge", { slot: "end" }, `${points} pts`),
             comments_count
               ? m("ion-badge", { slot: "start" }, `${comments_count} comments`)
               : null

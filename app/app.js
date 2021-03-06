@@ -39,16 +39,16 @@ const Component = () => {
           isEmpty(data)
             ? m("ion-progress-bar[type='indeterminate']")
             : [
-                m(
-                  "ion-refresher",
-                  { slot: "fixed" },
-                  m("ion-refresher-content", {
-                    // "pulling-icon": "chevron-down-circle-outline",
-                    // "pulling-text": "Pull to refresh",
-                    // "refreshing-spinner": "circles",
-                    "refreshing-text": "Refreshing...",
-                  })
-                ),
+                // m(
+                //   "ion-refresher",
+                //   { slot: "fixed" },
+                //   m("ion-refresher-content", {
+                //     // "pulling-icon": "chevron-down-circle-outline",
+                //     // "pulling-text": "Pull to refresh",
+                //     // "refreshing-spinner": "circles",
+                //     "refreshing-text": "Refreshing...",
+                //   })
+                // ),
                 isPost(data)
                   ? data.map((_post, idx) =>
                       m(Post, {

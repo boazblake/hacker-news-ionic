@@ -1,3 +1,7 @@
+ion-footer ion-tab-bar {
+  min-height: 100%;
+}
+
 ion-navbar.toolbar.toolbar-ios.statusbar-padding,
 ion-navbar.toolbar-ios ion-title.title-ios,
 ion-toolbar.toolbar.toolbar-ios.statusbar-padding,

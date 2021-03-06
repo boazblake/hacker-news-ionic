@@ -57,8 +57,8 @@ const getDataById = (mdl) => (route) => (id) => {
 const getPath = (route) => route.split("/")[1]
 
 const state = {
-  id: null,
-  title: null,
+  id: Stream(null),
+  title: Stream(null),
   key: "",
   url: "",
   route: "",

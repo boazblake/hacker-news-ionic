@@ -24,7 +24,6 @@ const userModalInfo = (mdl) => ({
 const Component = () => {
   const isPost = (data) => data.map
   const isComment = (data) => data.comments && data.comments.map
-
   return {
     view: ({ attrs: { mdl } }) => {
       let route = mdl.state.route
@@ -39,23 +38,33 @@ const Component = () => {
         [
           isEmpty(data)
             ? m("ion-progress-bar[type='indeterminate']")
-            : isPost(data)
-            ? data.map((_post, idx) =>
-                m(Post, {
-                  key: idx,
-                  post: _post,
-                  mdl,
-                })
-              )
-            : isComment(data) && [
-                m("h1", data.title),
-                data.comments.map((c, idx) =>
-                  m(Comment, {
-                    key: idx,
-                    comment: c,
-                    mdl,
+            : [
+                m(
+                  "ion-refresher",
+                  { slot: "fixed" },
+                  m("ion-refresher-content", {
+                    // "pulling-icon": "chevron-down-circle-outline",
+                    // "pulling-text": "Pull to refresh",
+                    // "refreshing-spinner": "circles",
+                    "refreshing-text": "Refreshing...",
                   })
                 ),
+                isPost(data)
+                  ? data.map((_post, idx) =>
+                      m(Post, {
+                        key: idx,
+                        post: _post,
+                        mdl,
+                      })
+                    )
+                  : isComment(data) &&
+                    data.comments.map((c, idx) =>
+                      m(Comment, {
+                        key: idx,
+                        comment: c,
+                        mdl,
+                      })
+                    ),
               ],
           mdl.state.showUser &&
             mdl.state.user.id &&
@@ -68,7 +77,7 @@ const Component = () => {
 
 const makeRoutes = (mdl) => (routes, route) => {
   routes[`/${route.name}`] = {
-    onmatch: (_, path) => init(mdl)(path),
+    onmatch: (params, path) => init(mdl)(params, path),
     render: () =>
       m(
         Layout,

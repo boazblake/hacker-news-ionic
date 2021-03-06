@@ -1,6 +1,7 @@
 export const isEmpty = (data) => data.length == 0
 
 export const infiniteScroll = (mdl) => (e) => {
+  console.log("infscroll")
   let route = mdl.state.route
   let length = mdl.data[route].data.length
   let setpoint = 10 * length * mdl.state.scrollPos
@@ -12,13 +13,13 @@ export const infiniteScroll = (mdl) => (e) => {
   }
 }
 
-export const init = (mdl) => (path) => {
-  // window.scrollToTop()
+export const init = (mdl) => ({ title, key }, path) => {
   mdl.state.page = 1
   let [_, route, id] = path.split("/")
-  if (id) {
-    console.log("id", id)
-    mdl.getDataById(mdl)(route)(id)
+  if (key) {
+    mdl.state.title(title)
+    mdl.state.id(key)
+    mdl.getDataById(mdl)(route)(key)
   } else {
     mdl.getData(mdl)(path)
   }

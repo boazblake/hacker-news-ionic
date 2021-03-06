@@ -1,11 +1,9 @@
 const commentIdFromRoute = (route) => route.split("/")[2]
 
 const Comment = {
-  oncreate: ({ attrs: { mdl } }) =>
-    (mdl.state.id = commentIdFromRoute(m.route.get())),
-  onremove: ({ attrs: { mdl } }) => {
-    mdl.state.id = null
-    mdl.state.title = null
+  oninit: ({ attrs: { mdl } }) => {
+    // mdl.state.title(null)
+    mdl.state.id(commentIdFromRoute(m.route.get()))
   },
   view: ({
     attrs: {
@@ -41,7 +39,15 @@ const Comment = {
                 expand: "full",
                 onclick: () => mdl.toggleComments({ mdl, key, level }),
               },
-              `${comments_count} comments`
+              [
+                `${comments_count} comments`,
+                state.showComments
+                  ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
+                  : m("ion-icon", {
+                      slot: "end",
+                      name: "chevron-down-outline",
+                    }),
+              ]
             )
           : null,
         state.showComments

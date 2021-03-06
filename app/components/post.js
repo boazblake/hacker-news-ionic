@@ -16,9 +16,8 @@ const Post = {
         {
           id: "post-list-card",
           onclick: () => {
-            mdl.state.title = title
             mdl.state.showComment = !mdl.state.showComment
-            comments_count && m.route.set("/item/:key", { key: id })
+            comments_count && m.route.set("/item/:key", { key: id, title })
           },
         },
         m("ion-card-header", m("h1", title)),
@@ -50,7 +49,7 @@ const Post = {
                       slot: "start",
                       color: "primary",
                       onclick: () => {
-                        console.log("user", user)
+                        // console.log("user", user)
                       },
                       // onclick: () => mdl.toggleUser(mdl)(user),
                     },

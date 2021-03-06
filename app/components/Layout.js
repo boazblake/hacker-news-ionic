@@ -1,35 +1,48 @@
 import { showSettings } from "./action-sheet"
+import { ionicRouter } from "./ionic-router"
 
-const Toolbar = () => {
-  return {
-    view: ({ attrs: { mdl } }) =>
+const Header = {
+  view: ({ attrs: { mdl } }) => {
+    return m(
+      "ion-header",
       m(
-        "ion-header",
-        m(
-          "ion-toolbar",
-          mdl.state.id
-            ? m(
-                "ion-buttons",
-                { slot: "start" },
-                m(
-                  "ion-back-button",
-                  {
-                    defaultHref: "/news",
-                    onclick: (e) => {
-                      m.route.set(mdl.state.prev || "/news")
-                    },
+        "ion-toolbar",
+        mdl.state.id()
+          ? [
+              m(
+                "ion-back-button",
+                {
+                  text: "",
+                  slot: "start",
+                  defaultHref: "/news",
+                  onclick: (e) => {
+                    mdl.state.id(null)
+                    mdl.state.title(null)
+                    m.route.set(mdl.state.prev || "/news")
                   },
-                  mdl.getPath(mdl.state.prev || "/news")
+                },
+                mdl.getPath(mdl.state.prev || "/news")
+              ),
+              m(
+                "ion-title.ion-text-center.ion-text-wrap",
+                { slot: "primary", size: "large" },
+                m(
+                  "ion-label",
+                  m("ion-text", m("p", mdl.state.title().toUpperCase()))
                 )
+              ),
+            ]
+          : m(
+              "ion-title.ion-text-center.ion-text-wrap",
+              { size: "large" },
+              m(
+                "ion-label",
+                m("h1", mdl.getPath(mdl.state.route).toUpperCase())
               )
-            : m(
-                "ion-title",
-                { size: "large" },
-                m("h1", mdl.getPath(mdl.state.route))
-              )
-        )
-      ),
-  }
+            )
+      )
+    )
+  },
 }
 
 const Footer = ({ attrs: { mdl } }) => {
@@ -38,58 +51,37 @@ const Footer = ({ attrs: { mdl } }) => {
     view: ({ attrs: { mdl } }) => {
       return m(
         "ion-footer",
+        { translucent: true },
         m(
           "ion-toolbar",
-          m(
-            "ion-tab-bar",
-            m("ion-tabs", [
-              // m(
-              //   "ion-router",
-              //   // m("ion-route-redirect", { from: "!", to: "#!" }),
-              //   mdl.routes.map((r) => {
-              //     console.log("r", `${r.name}`),
-              //       [
-              //         // m("ion-route-redirect", {
-              //         //   from: `!/${r.name}`,
-              //         //   to: `#!/${r.name}`,
-              //         // }),
-              //         m("ion-route", {
-              //           push: (p) => console.log("push", p),
-              //           // root: "#/!",
-              //           // url: `#!/${r.name}`,
-              //           // component:
-              //         }),
-              //       ]
-              //   })
-              // ),
-              Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
-              m("ion-tab-bar", { slot: "bottom" }, [
-                Routes.map((r) =>
-                  m(
-                    "ion-tab-button",
-                    {
-                      onclick: () => {
-                        console.log("r.name", r.name)
-                        m.route.set(`/${r.name}`)
-                      },
-                      tab: `${r.name}`,
-                    },
-                    [m("ion-label", r.name), m("ion-icon", { name: r.icon })]
-                  )
-                ),
+          m("ion-tabs", [
+            ...Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
+            m("ion-tab-bar", { slot: "bottom" }, [
+              Routes.map((r) =>
                 m(
                   "ion-tab-button",
                   {
-                    onclick: () => showSettings(mdl),
+                    onclick: () => {
+                      m.route.set(`/${r.name}`)
+                    },
+                    tab: `${r.name}`,
                   },
-                  [
-                    m("ion-label", "settings"),
-                    m("ion-icon", { name: "ellipsis-vertical-outline" }),
-                  ]
-                ),
-              ]),
-            ])
-          )
+                  [m("ion-label", r.name), m("ion-icon", { name: r.icon })]
+                )
+              ),
+              m(
+                "ion-tab-button",
+                {
+                  onclick: () => showSettings(mdl),
+                },
+                [
+                  m("ion-label", "settings"),
+                  m("ion-icon", { name: "ellipsis-vertical-outline" }),
+                ]
+              ),
+            ]),
+            // ionicRouter(mdl)
+          ])
         )
       )
     },
@@ -102,8 +94,8 @@ const Layout = ({ attrs: { mdl } }) => {
       m(
         "ion-app",
         children && [
-          m(Toolbar, { mdl }),
-          m("ion-content", children),
+          m(Header, { mdl }),
+          m("ion-content", { fullscreen: true }, children),
           m(Footer, { mdl }),
         ]
       ),

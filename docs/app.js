@@ -238,13 +238,20 @@ var Component = function Component() {
       return m("ion-list", {
         route: mdl.state.route,
         onscroll: (0, _index.infiniteScroll)(mdl)
-      }, [(0, _index.isEmpty)(data) ? m("ion-progress-bar[type='indeterminate']") : isPost(data) ? data.map(function (_post, idx) {
+      }, [(0, _index.isEmpty)(data) ? m("ion-progress-bar[type='indeterminate']") : [m("ion-refresher", {
+        slot: "fixed"
+      }, m("ion-refresher-content", {
+        // "pulling-icon": "chevron-down-circle-outline",
+        // "pulling-text": "Pull to refresh",
+        // "refreshing-spinner": "circles",
+        "refreshing-text": "Refreshing..."
+      })), isPost(data) ? data.map(function (_post, idx) {
         return m(_post2["default"], {
           key: idx,
           post: _post,
           mdl: mdl
         });
-      }) : isComment(data) && [m("h1", data.title), data.comments.map(function (c, idx) {
+      }) : isComment(data) && data.comments.map(function (c, idx) {
         return m(_comment["default"], {
           key: idx,
           comment: c,
@@ -260,8 +267,8 @@ var Component = function Component() {
 var makeRoutes = function makeRoutes(mdl) {
   return function (routes, route) {
     routes["/".concat(route.name)] = {
-      onmatch: function onmatch(_, path) {
-        return (0, _index.init)(mdl)(path);
+      onmatch: function onmatch(params, path) {
+        return (0, _index.init)(mdl)(params, path);
       },
       render: function render() {
         return m(_layout["default"], {
@@ -328,27 +335,23 @@ var commentIdFromRoute = function commentIdFromRoute(route) {
 };
 
 var Comment = {
-  oncreate: function oncreate(_ref) {
+  oninit: function oninit(_ref) {
     var mdl = _ref.attrs.mdl;
-    return mdl.state.id = commentIdFromRoute(m.route.get());
+    // mdl.state.title(null)
+    mdl.state.id(commentIdFromRoute(m.route.get()));
   },
-  onremove: function onremove(_ref2) {
-    var mdl = _ref2.attrs.mdl;
-    mdl.state.id = null;
-    mdl.state.title = null;
-  },
-  view: function view(_ref3) {
-    var _ref3$attrs = _ref3.attrs,
-        key = _ref3$attrs.key,
-        mdl = _ref3$attrs.mdl,
-        _ref3$attrs$comment = _ref3$attrs.comment,
-        comments = _ref3$attrs$comment.comments,
-        comments_count = _ref3$attrs$comment.comments_count,
-        id = _ref3$attrs$comment.id,
-        time_ago = _ref3$attrs$comment.time_ago,
-        content = _ref3$attrs$comment.content,
-        level = _ref3$attrs$comment.level,
-        user = _ref3$attrs$comment.user;
+  view: function view(_ref2) {
+    var _ref2$attrs = _ref2.attrs,
+        key = _ref2$attrs.key,
+        mdl = _ref2$attrs.mdl,
+        _ref2$attrs$comment = _ref2$attrs.comment,
+        comments = _ref2$attrs$comment.comments,
+        comments_count = _ref2$attrs$comment.comments_count,
+        id = _ref2$attrs$comment.id,
+        time_ago = _ref2$attrs$comment.time_ago,
+        content = _ref2$attrs$comment.content,
+        level = _ref2$attrs$comment.level,
+        user = _ref2$attrs$comment.user;
     var state = {
       showComments: mdl.state.comment["".concat(key, "-").concat(level)] || false
     };
@@ -370,7 +373,13 @@ var Comment = {
           level: level
         });
       }
-    }, "".concat(comments_count, " comments")) : null, state.showComments ? comments.map(function (c, idx) {
+    }, ["".concat(comments_count, " comments"), state.showComments ? m("ion-icon", {
+      slot: "end",
+      name: "chevron-up-outline"
+    }) : m("ion-icon", {
+      slot: "end",
+      name: "chevron-down-outline"
+    })]) : null, state.showComments ? comments.map(function (c, idx) {
       return m(Comment, {
         key: idx,
         comment: c,
@@ -383,6 +392,26 @@ var _default = Comment;
 exports["default"] = _default;
 });
 
+;require.register("components/ionic-router.js", function(exports, require, module) {
+"use strict";
+
+var ionicRouter = function ionicRouter() {
+  return m("ion-router", m("ion-route-redirect", {
+    from: "!",
+    to: "#!"
+  }), mdl.routes.map(function (r) {
+    console.log("r", "".concat(r.name)), [m("ion-route-redirect", {
+      from: "!/".concat(r.name),
+      to: "#!/".concat(r.name)
+    }), m("ion-route", {
+      root: "#/!",
+      url: "#!/".concat(r.name),
+      component: r.name
+    })];
+  }));
+};
+});
+
 ;require.register("components/layout.js", function(exports, require, module) {
 "use strict";
 
@@ -393,22 +422,39 @@ exports["default"] = void 0;
 
 var _actionSheet = require("./action-sheet");
 
-var Toolbar = function Toolbar() {
-  return {
-    view: function view(_ref) {
-      var mdl = _ref.attrs.mdl;
-      return m("ion-header", m("ion-toolbar", mdl.state.id ? m("ion-buttons", {
-        slot: "start"
-      }, m("ion-back-button", {
-        defaultHref: "/news",
-        onclick: function onclick(e) {
-          m.route.set(mdl.state.prev || "/news");
-        }
-      }, mdl.getPath(mdl.state.prev || "/news"))) : m("ion-title", {
-        size: "large"
-      }, m("h1", mdl.getPath(mdl.state.route)))));
-    }
-  };
+var _ionicRouter = require("./ionic-router");
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var Header = {
+  view: function view(_ref) {
+    var mdl = _ref.attrs.mdl;
+    return m("ion-header", m("ion-toolbar", mdl.state.id() ? [m("ion-back-button", {
+      text: "",
+      slot: "start",
+      defaultHref: "/news",
+      onclick: function onclick(e) {
+        mdl.state.id(null);
+        mdl.state.title(null);
+        m.route.set(mdl.state.prev || "/news");
+      }
+    }, mdl.getPath(mdl.state.prev || "/news")), m("ion-title.ion-text-center.ion-text-wrap", {
+      slot: "primary",
+      size: "large"
+    }, m("ion-label", m("ion-text", m("p", mdl.state.title().toUpperCase()))))] : m("ion-title.ion-text-center.ion-text-wrap", {
+      size: "large"
+    }, m("ion-label", m("h1", mdl.getPath(mdl.state.route).toUpperCase())))));
+  }
 };
 
 var Footer = function Footer(_ref2) {
@@ -419,35 +465,17 @@ var Footer = function Footer(_ref2) {
   return {
     view: function view(_ref3) {
       var mdl = _ref3.attrs.mdl;
-      return m("ion-footer", m("ion-toolbar", m("ion-tab-bar", m("ion-tabs", [// m(
-      //   "ion-router",
-      //   // m("ion-route-redirect", { from: "!", to: "#!" }),
-      //   mdl.routes.map((r) => {
-      //     console.log("r", `${r.name}`),
-      //       [
-      //         // m("ion-route-redirect", {
-      //         //   from: `!/${r.name}`,
-      //         //   to: `#!/${r.name}`,
-      //         // }),
-      //         m("ion-route", {
-      //           push: (p) => console.log("push", p),
-      //           // root: "#/!",
-      //           // url: `#!/${r.name}`,
-      //           // component:
-      //         }),
-      //       ]
-      //   })
-      // ),
-      Routes.map(function (r) {
+      return m("ion-footer", {
+        translucent: true
+      }, m("ion-toolbar", m("ion-tabs", [].concat(_toConsumableArray(Routes.map(function (r) {
         return m("ion-tab", {
           tab: "".concat(r.name)
         });
-      }), m("ion-tab-bar", {
+      })), [m("ion-tab-bar", {
         slot: "bottom"
       }, [Routes.map(function (r) {
         return m("ion-tab-button", {
           onclick: function onclick() {
-            console.log("r.name", r.name);
             m.route.set("/".concat(r.name));
           },
           tab: "".concat(r.name)
@@ -460,7 +488,8 @@ var Footer = function Footer(_ref2) {
         }
       }, [m("ion-label", "settings"), m("ion-icon", {
         name: "ellipsis-vertical-outline"
-      })])])]))));
+      })])]) // ionicRouter(mdl)
+      ]))));
     }
   };
 };
@@ -470,9 +499,11 @@ var Layout = function Layout(_ref4) {
   return {
     view: function view(_ref5) {
       var children = _ref5.children;
-      return m("ion-app", children && [m(Toolbar, {
+      return m("ion-app", children && [m(Header, {
         mdl: mdl
-      }), m("ion-content", children), m(Footer, {
+      }), m("ion-content", {
+        fullscreen: true
+      }, children), m(Footer, {
         mdl: mdl
       })]);
     }
@@ -566,10 +597,10 @@ var Post = {
     }, m("ion-card", {
       id: "post-list-card",
       onclick: function onclick() {
-        mdl.state.title = title;
         mdl.state.showComment = !mdl.state.showComment;
         comments_count && m.route.set("/item/:key", {
-          key: id
+          key: id,
+          title: title
         });
       }
     }, m("ion-card-header", m("h1", title)), m("ion-card-content", m("ion-grid", m("ion-row", m("ion-link", "from ", m("a.", {
@@ -579,8 +610,7 @@ var Post = {
     }, "".concat(domain)))), m("ion-row", user && m("ion-label", "".concat(time_ago, " by "), m("ion-chip", {
       slot: "start",
       color: "primary",
-      onclick: function onclick() {
-        console.log("user", user);
+      onclick: function onclick() {// console.log("user", user)
       } // onclick: () => mdl.toggleUser(mdl)(user),
 
     }, user)))), m("ion-item", {
@@ -755,8 +785,8 @@ var getPath = function getPath(route) {
 };
 
 var state = {
-  id: null,
-  title: null,
+  id: Stream(null),
+  title: Stream(null),
   key: "",
   url: "",
   route: "",
@@ -1000,6 +1030,7 @@ exports.isEmpty = isEmpty;
 
 var infiniteScroll = function infiniteScroll(mdl) {
   return function (e) {
+    console.log("infscroll");
     var route = mdl.state.route;
     var length = mdl.data[route].data.length;
     var setpoint = 10 * length * mdl.state.scrollPos;
@@ -1017,8 +1048,9 @@ var infiniteScroll = function infiniteScroll(mdl) {
 exports.infiniteScroll = infiniteScroll;
 
 var init = function init(mdl) {
-  return function (path) {
-    // window.scrollToTop()
+  return function (_ref, path) {
+    var title = _ref.title,
+        key = _ref.key;
     mdl.state.page = 1;
 
     var _path$split = path.split("/"),
@@ -1027,9 +1059,10 @@ var init = function init(mdl) {
         route = _path$split2[1],
         id = _path$split2[2];
 
-    if (id) {
-      console.log("id", id);
-      mdl.getDataById(mdl)(route)(id);
+    if (key) {
+      mdl.state.title(title);
+      mdl.state.id(key);
+      mdl.getDataById(mdl)(route)(key);
     } else {
       mdl.getData(mdl)(path);
     }

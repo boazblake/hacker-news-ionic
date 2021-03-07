@@ -18,15 +18,17 @@ const urls = routes.reduce((req, route) => {
   return req
 }, {})
 
-const http = (mdl) => (url) => (route) =>
+const http = (mdl) => (url) => (route, refresh) =>
   m
     .request({
       url,
       method: "GET",
     })
     .then((data) => {
-      mdl.data[route].data = data
-      return mdl
+      refresh
+        ? (mdl.data[route].data = data)
+        : (mdl.data[route].data = mdl.data[route].data.concat(data))
+      return Promise.resolve(mdl)
     })
 
 const reqs = {
@@ -40,7 +42,7 @@ const getData = (mdl) => (route) => {
   mdl.state.route = route
   let path = mdl.getPath(route)
   mdl.data[route] ? mdl.data[route] : (mdl.data[route] = { data: [] })
-  mdl.reqs.http(mdl)(mdl.reqs.urls[path](mdl.state.page))(route)
+  return mdl.reqs.http(mdl)(mdl.reqs.urls[path](mdl.state.page))(route)
 }
 
 const getDataById = (mdl) => (route) => (id) => {

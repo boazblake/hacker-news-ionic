@@ -15,12 +15,13 @@ export const infiniteScroll = (mdl) => (e) => {
 
 export const init = (mdl) => ({ title, key }, path) => {
   mdl.state.page = 1
-  let [_, route, id] = path.split("/")
+  let [_, route] = path.split("/")
   if (key) {
     mdl.state.title(title)
     mdl.state.id(key)
     mdl.getDataById(mdl)(route)(key)
   } else {
+    console.log("PATH", path)
     mdl.getData(mdl)(path)
   }
 }

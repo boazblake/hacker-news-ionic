@@ -38,34 +38,59 @@ const Component = () => {
         [
           isEmpty(data)
             ? m("ion-progress-bar[type='indeterminate']")
-            : [
-                // m(
-                //   "ion-refresher",
-                //   { slot: "fixed" },
-                //   m("ion-refresher-content", {
-                //     // "pulling-icon": "chevron-down-circle-outline",
-                //     // "pulling-text": "Pull to refresh",
-                //     // "refreshing-spinner": "circles",
-                //     "refreshing-text": "Refreshing...",
-                //   })
-                // ),
-                isPost(data)
-                  ? data.map((_post, idx) =>
-                      m(Post, {
-                        key: idx,
-                        post: _post,
-                        mdl,
-                      })
-                    )
-                  : isComment(data) &&
-                    data.comments.map((c, idx) =>
-                      m(Comment, {
-                        key: idx,
-                        comment: c,
-                        mdl,
-                      })
-                    ),
-              ],
+            : isPost(data)
+            ? [
+                m(
+                  "ion-refresher",
+                  {
+                    onionRefresh: (e) => {
+                      mdl
+                        .getData(mdl)(mdl.state.route, true)
+                        .then(e.target.complete())
+                    },
+                    slot: "fixed",
+                  },
+                  m("ion-refresher-content", {
+                    pullingIcon: "chevron-down-circle-outline",
+                    loadingSpinner: "bubbles",
+                    pullingText: "Pull to refresh",
+                    closeDuration: "280ms",
+                  })
+                ),
+                data.map((_post, idx) =>
+                  m(Post, {
+                    key: idx,
+                    post: _post,
+                    mdl,
+                  })
+                ),
+                m(
+                  "ion-infinite-scroll",
+                  {
+                    onionInfinite: (e) => {
+                      mdl.state.page++
+                      mdl
+                        .getData(mdl)(mdl.state.route)
+                        .then(e.target.complete())
+                    },
+                    threshold: "100px",
+                    id: "infinite-scroll",
+                  },
+                  m("ion-infinite-scroll-content", {
+                    loadingSpinner: "bubbles",
+                    loadingText: "fetching more data",
+                  })
+                ),
+              ]
+            : isComment(data) &&
+              data.comments.map((c, idx) =>
+                m(Comment, {
+                  key: idx,
+                  comment: c,
+                  mdl,
+                })
+              ),
+
           mdl.state.showUser &&
             mdl.state.user.id &&
             m(Modal, { ...userModalInfo(mdl), mdl }),

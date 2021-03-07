@@ -6,7 +6,9 @@ ion-toolbar.toolbar-ios ion-title.title-ios {
   padding-top: env(safe-area-inset-top);
 }
 
-
+ion-tabs {
+  height: 79px;
+}
 
 #post-list-card {
   min-width: 80vw;

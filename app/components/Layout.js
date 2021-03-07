@@ -67,7 +67,7 @@ const Footer = ({ attrs: { mdl } }) => {
           m("ion-tabs", [
             ...Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
             m("ion-tab-bar", { slot: "bottom" }, [
-              Routes.map((r) =>
+              ...Routes.map((r) =>
                 m(
                   "ion-tab-button",
                   {

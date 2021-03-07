@@ -16,8 +16,10 @@ const Post = {
         {
           id: "post-list-card",
           onclick: () => {
-            mdl.state.showComment = !mdl.state.showComment
-            comments_count && m.route.set("/item/:key", { key: id, title })
+            if (comments_count) {
+              mdl.state.prev = mdl.state.path
+              m.route.set("/item/:key", { key: id, title })
+            }
           },
         },
         m("ion-card-header", m("h1", title)),

@@ -1,11 +1,14 @@
+import Post from "./pages/posts"
+import Comment from "./pages/comments"
+
 const routes = [
-  { name: "news", icon: "newspaper-outline" },
-  { name: "newest", icon: "pulse-outline" },
-  { name: "ask", icon: "chatbox-ellipses-outline" },
-  { name: "show", icon: "eye-outline" },
-  { name: "jobs", icon: "body-outline" },
-  { name: "item/:key", icon: null },
-  { name: "user/:key", icon: null },
+  { name: "news", icon: "newspaper-outline", component: Post },
+  { name: "newest", icon: "pulse-outline", component: Post },
+  { name: "ask", icon: "chatbox-ellipses-outline", component: Post },
+  { name: "show", icon: "eye-outline", component: Post },
+  { name: "jobs", icon: "body-outline", component: Post },
+  { name: "item/:key", icon: null, component: Comment },
+  { name: "user/:key", icon: null, component: Comment },
 ]
 
 const url = (route) => (page) => {
@@ -18,42 +21,24 @@ const urls = routes.reduce((req, route) => {
   return req
 }, {})
 
-const http = (mdl) => (url) => (route, refresh) =>
-  m
-    .request({
-      url,
-      method: "GET",
-    })
-    .then((data) => {
-      refresh
-        ? (mdl.data[route].data = data)
-        : (mdl.data[route].data = mdl.data[route].data.concat(data))
-      return Promise.resolve(mdl)
-    })
+const http = (url) =>
+  m.request({
+    url,
+    method: "GET",
+  })
 
 const reqs = {
   urls,
   http,
 }
 
-const getData = (mdl) => (route) => {
-  mdl.state.showComment = false
-  mdl.state.comment = {}
-  mdl.state.route = route
-  let path = mdl.getPath(route)
-  mdl.data[route] ? mdl.data[route] : (mdl.data[route] = { data: [] })
-  return mdl.reqs.http(mdl)(mdl.reqs.urls[path](mdl.state.page))(route)
-}
+const getPosts = (mdl, route) =>
+  http(mdl.reqs.urls[route](mdl.data[mdl.state.route].page))
 
-const getDataById = (mdl) => (route) => (id) => {
-  mdl.state.prev = mdl.state.route
+const getComments = (mdl, route, id) => {
+  console.log(mdl.state.route, route, id)
 
-  if (route == "item") {
-    mdl.state.route = route
-  }
-
-  mdl.data[route] ? mdl.data[route] : (mdl.data[route] = { data: [] })
-  mdl.reqs.http(mdl)(mdl.reqs.urls[`${route}/:key`](id))(route)
+  return http(mdl.reqs.urls[`${route}/:key`](id))
 }
 
 const getPath = (route) => route.split("/")[1]
@@ -89,8 +74,8 @@ const toggleUser = (mdl) => (id) => {
 }
 
 export const model = {
-  getData,
-  getDataById,
+  getPosts,
+  getComments,
   routes,
   getPath,
   reqs,

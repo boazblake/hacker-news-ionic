@@ -18,10 +18,11 @@ const Header = {
                   onclick: (e) => {
                     mdl.state.id(null)
                     mdl.state.title(null)
-                    m.route.set(mdl.state.prev || "/news")
+                    mdl.data.item = null
+                    m.route.set(mdl.state.prev)
                   },
                 },
-                mdl.getPath(mdl.state.prev || "/news")
+                mdl.state.route
               ),
               // m(
               //   "ion-title.ion-text-center.ion-text-wrap",
@@ -44,10 +45,7 @@ const Header = {
               { size: "large" },
               m(
                 "ion-label",
-                m(
-                  "ion-text",
-                  m("h1", mdl.getPath(mdl.state.route).toUpperCase())
-                )
+                m("ion-text", m("h1", mdl.state.route.toUpperCase()))
               )
             )
       )

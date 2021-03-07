@@ -23,9 +23,16 @@ const Header = {
                 },
                 mdl.getPath(mdl.state.prev || "/news")
               ),
+              // m(
+              //   "ion-title.ion-text-center.ion-text-wrap",
+              //   { size: "large" },
+              //   m(
+              //     "ion-label"
+              //     // m("h1", mdl.getPath(mdl.state.route).toUpperCase())
+              //   )
+              // ),
               m(
-                "ion-title.ion-text-center.ion-text-wrap",
-                { slot: "primary", size: "large" },
+                "ion-sub-title.ion-text-center.ion-text-wrap",
                 m(
                   "ion-label",
                   m("ion-text", m("p", mdl.state.title().toUpperCase()))
@@ -37,7 +44,10 @@ const Header = {
               { size: "large" },
               m(
                 "ion-label",
-                m("h1", mdl.getPath(mdl.state.route).toUpperCase())
+                m(
+                  "ion-text",
+                  m("h1", mdl.getPath(mdl.state.route).toUpperCase())
+                )
               )
             )
       )
@@ -51,7 +61,7 @@ const Footer = ({ attrs: { mdl } }) => {
     view: ({ attrs: { mdl } }) => {
       return m(
         "ion-footer",
-        { translucent: true },
+        // { translucent: true },
         m(
           "ion-toolbar",
           m("ion-tabs", [
@@ -62,6 +72,8 @@ const Footer = ({ attrs: { mdl } }) => {
                   "ion-tab-button",
                   {
                     onclick: () => {
+                      mdl.state.id(null)
+                      mdl.state.title(null)
                       m.route.set(`/${r.name}`)
                     },
                     tab: `${r.name}`,

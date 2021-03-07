@@ -9,6 +9,19 @@ if (module.hot) {
 
 if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!")
+} else {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./service-worker.js")
+        .then((registration) => {
+          console.log("SW registered: ", registration)
+        })
+        .catch((registrationError) => {
+          console.log("SW registration failed: ", registrationError)
+        })
+    })
+  }
 }
 
 // Styles
@@ -31,19 +44,6 @@ function checkWidth() {
     if (lastProfile != model.state.profile) m.redraw()
   }
   requestAnimationFrame(checkWidth)
-}
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then((registration) => {
-        console.log("SW registered: ", registration)
-      })
-      .catch((registrationError) => {
-        console.log("SW registration failed: ", registrationError)
-      })
-  })
 }
 
 checkWidth()

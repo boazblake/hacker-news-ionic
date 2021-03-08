@@ -7,28 +7,16 @@ const match = (mdl) => ({ title, key }, path) => {
   if (key) {
     mdl.state.title(title)
     mdl.state.id(key)
-    // mdl.getDataById(mdl)(route)(key)
   } else {
     mdl.state.title(null)
     mdl.state.id(null)
-    // mdl.getData(mdl)(path, false)
   }
 }
 
-const makeRoutes = (mdl) => (routes, route) => {
-  routes[`/${route.name}`] = {
+const makeRoutes = (mdl) => (routes, { component, name }) => {
+  routes[`/${name}`] = {
     onmatch: (params, path) => match(mdl)(params, path),
-    render: () =>
-      m(
-        Layout,
-        {
-          mdl,
-        },
-        m(route.component, {
-          key: route.name,
-          mdl,
-        })
-      ),
+    render: () => m(Layout, { mdl }, m(component, { key: name, mdl })),
   }
   return routes
 }

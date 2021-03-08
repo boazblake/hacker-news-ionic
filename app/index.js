@@ -1,6 +1,4 @@
-const root = document.body
 import { model } from "./model.js"
-
 import { App } from "./app.js"
 
 if (module.hot) {
@@ -24,9 +22,7 @@ if (process.env.NODE_ENV !== "production") {
   }
 }
 
-// Styles
-
-function getProfile(w) {
+const getProfile = (w) => {
   if (w < 668) return "phone"
   if (w < 920) return "tablet"
   return "desktop"
@@ -35,7 +31,7 @@ function getProfile(w) {
 let winW = window.innerWidth
 model.state.profile = getProfile(winW)
 
-function checkWidth() {
+const checkWidth = () => {
   const w = window.innerWidth
   if (winW !== w) {
     winW = w
@@ -47,5 +43,5 @@ function checkWidth() {
 }
 
 checkWidth()
-m.route(root, "/news", App(model))
+m.route(document.body, "/news", App(model))
 m.route.set("/news")

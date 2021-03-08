@@ -1,5 +1,5 @@
 import { showSettings } from "./action-sheet"
-import { ionicRouter } from "./ionic-router"
+import Modal from "./../components/modal.js"
 
 const Header = {
   view: ({ attrs: { mdl } }) => {
@@ -16,22 +16,11 @@ const Header = {
                   slot: "start",
                   defaultHref: "/news",
                   onclick: (e) => {
-                    mdl.state.id(null)
-                    mdl.state.title(null)
-                    mdl.data.item = null
                     m.route.set(mdl.state.prev)
                   },
                 },
                 mdl.state.route
               ),
-              // m(
-              //   "ion-title.ion-text-center.ion-text-wrap",
-              //   { size: "large" },
-              //   m(
-              //     "ion-label"
-              //     // m("h1", mdl.getPath(mdl.state.route).toUpperCase())
-              //   )
-              // ),
               m(
                 "ion-sub-title.ion-text-center.ion-text-wrap",
                 m(
@@ -59,24 +48,23 @@ const Footer = ({ attrs: { mdl } }) => {
     view: ({ attrs: { mdl } }) => {
       return m(
         "ion-footer",
-        // { translucent: true },
         m(
           "ion-toolbar",
           m("ion-tabs", [
-            ...Routes.map((r) => m("ion-tab", { tab: `${r.name}` })),
+            ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
             m("ion-tab-bar", { slot: "bottom" }, [
-              ...Routes.map((r) =>
+              ...Routes.map(({ name, icon }) =>
                 m(
                   "ion-tab-button",
                   {
                     onclick: () => {
                       mdl.state.id(null)
                       mdl.state.title(null)
-                      m.route.set(`/${r.name}`)
+                      m.route.set(`/${name}`)
                     },
-                    tab: `${r.name}`,
+                    tab: `${name}`,
                   },
-                  [m("ion-label", r.name), m("ion-icon", { name: r.icon })]
+                  [m("ion-label", name), m("ion-icon", { name: icon })]
                 )
               ),
               m(
@@ -90,7 +78,6 @@ const Footer = ({ attrs: { mdl } }) => {
                 ]
               ),
             ]),
-            // ionicRouter(mdl)
           ])
         )
       )

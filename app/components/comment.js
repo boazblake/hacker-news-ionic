@@ -1,15 +1,11 @@
 const commentIdFromRoute = (route) => route.split("/")[2]
 
 const Comment = {
-  oninit: ({ attrs: { mdl } }) => {
-    // mdl.state.title(null)
-    mdl.state.id(commentIdFromRoute(m.route.get()))
-  },
   view: ({
     attrs: {
       key,
       mdl,
-      comment: { comments, comments_count, id, time_ago, content, level, user },
+      comment: { comments, comments_count, time_ago, content, level, user },
     },
   }) => {
     let state = {
@@ -32,33 +28,31 @@ const Comment = {
       m(
         "ion-card-content",
         m.trust(content),
-        comments_count
-          ? m(
-              "ion-button",
-              {
-                expand: "full",
-                onclick: () => mdl.toggleComments({ mdl, key, level }),
-              },
-              [
-                `${comments_count} comments`,
-                state.showComments
-                  ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
-                  : m("ion-icon", {
-                      slot: "end",
-                      name: "chevron-down-outline",
-                    }),
-              ]
-            )
-          : null,
-        state.showComments
-          ? comments.map((c, idx) =>
-              m(Comment, {
-                key: idx,
-                comment: c,
-                mdl,
-              })
-            )
-          : null
+        comments_count &&
+          m(
+            "ion-button",
+            {
+              expand: "full",
+              onclick: () => mdl.toggleComments({ mdl, key, level }),
+            },
+            [
+              `${comments_count} comments`,
+              state.showComments
+                ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
+                : m("ion-icon", {
+                    slot: "end",
+                    name: "chevron-down-outline",
+                  }),
+            ]
+          ),
+        state.showComments &&
+          comments.map((c, idx) =>
+            m(Comment, {
+              key: idx,
+              comment: c,
+              mdl,
+            })
+          )
       )
     )
   },

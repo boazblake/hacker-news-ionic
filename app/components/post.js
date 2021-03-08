@@ -50,10 +50,6 @@ const Post = {
                     {
                       slot: "start",
                       color: "primary",
-                      onclick: () => {
-                        // console.log("user", user)
-                      },
-                      // onclick: () => mdl.toggleUser(mdl)(user),
                     },
                     user
                   )
@@ -64,9 +60,8 @@ const Post = {
             "ion-item",
             { lines: "none" },
             points && m("ion-badge", { slot: "end" }, `${points} pts`),
-            comments_count
-              ? m("ion-badge", { slot: "start" }, `${comments_count} comments`)
-              : null
+            comments_count &&
+              m("ion-badge", { slot: "start" }, `${comments_count} comments`)
           )
         )
       )

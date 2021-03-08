@@ -1,37 +1,45 @@
-const Header = {
-  view: ({ attrs: { title, model, close } }) => {
-    return m(".modal-header", [
-      m("h4.title", title),
-      m(
-        "button.closeBtn",
-        {
-          onclick: () => close(model),
-        },
-        "X"
-      ),
-    ])
+import { modalController } from "@ionic/core"
+
+const Modal = ({ attrs: { mdl } }) => ({
+  onremove: ({ dom }) =>
+    dom.dismiss({
+      dismissed: true,
+    }),
+  oncreate: ({ dom }) => {
+    console.log(mdl)
+    mdl.data.user.data &&
+      modalController
+        .create({
+          component: dom,
+          showBackdrop: true,
+          backdropDismiss: true,
+          cssClass: "",
+          animated: true,
+          swipeToClose: true,
+          keyboardClose: true,
+          id: mdl.state.user.id,
+        })
+        .then((modal) => modal.present())
   },
-}
-
-const Content = {
-  view: ({ children }) => m(".modal-contents", children),
-}
-
-const Footer = {
-  view: ({ children }) => m(".modal-footer", children),
-}
-
-const Modal = {
-  oninit: ({ attrs: { init, model } }) => init(model),
-  view: ({ attrs: { title, contents, footer, model, close } }) =>
+  oninit: ({ attrs: { mdl } }) => mdl.modal.init(mdl),
+  view: ({ attrs: { mdl } }) =>
     m(
-      "section.modalContainer",
-      m(".modal", {}, [
-        m(Header, { title, model, close }),
-        m(Content, contents),
-        m(Footer, footer),
-      ])
+      "ion-modal",
+      m(
+        "ion-header",
+        m(
+          "ion-toolbar",
+
+          m("ion-title", mdl.modal.title()),
+          m(
+            "ion-buttons",
+            { slot: "primary", onclick: () => mdl.modal.close() },
+            m("ion-icon", { clot: "icons-only", name: "close" })
+          )
+        )
+      ),
+      m("ion-content.ion-padding", mdl.modal.contents())
     ),
-}
+})
 
 export default Modal

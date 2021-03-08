@@ -1,5 +1,6 @@
 import Post from "./pages/posts"
 import Comment from "./pages/comments"
+import UserModel from "./components/user-modal"
 
 const routes = [
   { name: "news", icon: "newspaper-outline", component: Post },
@@ -35,11 +36,7 @@ const reqs = {
 const getPosts = (mdl, route) =>
   http(mdl.reqs.urls[route](mdl.data[mdl.state.route].page))
 
-const getComments = (mdl, route, id) => {
-  console.log(mdl.state.route, route, id)
-
-  return http(mdl.reqs.urls[`${route}/:key`](id))
-}
+const getDataById = (mdl, route, id) => http(mdl.reqs.urls[`${route}/:key`](id))
 
 const getPath = (route) => route.split("/")[1]
 
@@ -49,7 +46,6 @@ const state = {
   key: "",
   url: "",
   route: "",
-  page: 1,
   profile: "",
   tabsShowing: false,
   comment: {},
@@ -70,12 +66,25 @@ const toggleModal = (mdl) => (mdl.state.showModal = !mdl.state.showModal)
 
 const toggleUser = (mdl) => (id) => {
   mdl.state.user.id = id
-  mdl.state.showUser = !mdl.state.showUser
+  // mdl.state.showUser = !mdl.state.showUser
+  mdl.modal.title(`User: ${id}`)
+  mdl.modal.contents(UserModel.contents(mdl))
+  mdl.modal.init = (mdl) => UserModel.init(mdl)
+  mdl.toggleModal(mdl)
+}
+
+const modal = {
+  title: Stream(null),
+  contents: Stream(),
+  init: (mdl) => {},
+  close: () => {},
 }
 
 export const model = {
+  modal,
   getPosts,
-  getComments,
+  getComments: getDataById,
+  getUser: getDataById,
   routes,
   getPath,
   reqs,

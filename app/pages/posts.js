@@ -3,6 +3,9 @@ import Post from "./../components/post.js"
 const Posts = () => {
   return {
     oninit: ({ attrs: { mdl } }) => {
+      mdl.state.id(null)
+      mdl.state.title(null)
+      mdl.data.item = null
       if (!mdl.data[mdl.state.route]) {
         mdl.data[mdl.state.route] = { data: [], page: 1 }
         const onSuccess = (mdl) => (data) =>
@@ -69,11 +72,6 @@ const Posts = () => {
                     mdl
                       .getPosts(mdl, mdl.state.route)
                       .then(onSuccess(mdl), onError(mdl))
-                    // mdl.getData(mdl)(mdl.state.route, false)
-                    // setTimeout(() => {
-                    //   console.log("Async operation has ended", mdl)
-                    //
-                    // }, 2000)
                   },
                   threshold: "100px",
                   id: "infinite-scroll",
@@ -83,10 +81,6 @@ const Posts = () => {
                   loadingText: "fetching more data",
                 })
               )
-
-              // mdl.state.showUser &&
-              //   mdl.state.user.id &&
-              //   m(Modal, { ...userModalInfo(mdl), mdl })
             ),
       ]
     },

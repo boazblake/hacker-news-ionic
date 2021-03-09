@@ -14,10 +14,9 @@ body {
     env(safe-area-inset-left, 20px);
 }
 
-// body {
-//   padding: 0 constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left); //iOS 11.2
-//   padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-// }
+ion-footer ion-toolbar ion-tab-bar {
+  padding-bottom: 0;
+}
 
 #post-list-card {
   min-width: 80vw;

@@ -48,10 +48,6 @@ const Comments = () => {
                   mdl,
                 })
               )
-
-              // mdl.state.showUser &&
-              //   mdl.state.user.id &&
-              //   m(Modal, { ...userModalInfo(mdl), mdl }),
             ),
       ]
     },

@@ -1,6 +1,7 @@
 import Post from "./pages/posts"
 import Comment from "./pages/comments"
 import UserModel from "./components/user-modal"
+import MarkdownIt from "markdown-it"
 
 const routes = [
   { name: "news", icon: "newspaper-outline", component: Post },
@@ -80,7 +81,18 @@ const modal = {
   close: () => {},
 }
 
+const markup = new MarkdownIt({
+  html: true,
+  xhtmlOut: true,
+  breaks: true,
+  langPrefix: "",
+  linkify: true,
+  typographer: true,
+  quotes: "“”‘’",
+})
+
 export const model = {
+  markup,
   modal,
   getPosts,
   getComments: getDataById,

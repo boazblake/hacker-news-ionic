@@ -1,3 +1,5 @@
+@import url('./footer.scss');
+
 ion-navbar.toolbar.toolbar-ios.statusbar-padding,
 ion-navbar.toolbar-ios ion-title.title-ios,
 ion-toolbar.toolbar.toolbar-ios.statusbar-padding,
@@ -14,8 +16,9 @@ body {
     env(safe-area-inset-left, 20px);
 }
 
-ion-footer ion-toolbar ion-tab-bar {
+ion-footer ion-toolbar ion-tabs ion-tab-bar {
   padding-bottom: 0;
+  height: 100px;;
 }
 
 #post-list-card {

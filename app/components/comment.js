@@ -25,7 +25,7 @@ const Comment = {
       ),
       m(
         "ion-card-content",
-        m.trust(content),
+        m.trust(mdl.markup.render(content)),
         comments_count > 1 &&
           m(
             "ion-button",

@@ -1,5 +1,5 @@
 import { showSettings } from "./action-sheet"
-import Modal from "./../components/modal.js"
+import Modal from "./modal.js"
 
 const Header = {
   view: ({ attrs: { mdl } }) => {

@@ -38,7 +38,7 @@ const Modal = ({ attrs: { mdl } }) => ({
           )
         )
       ),
-      m("ion-content.ion-padding", mdl.modal.contents())
+      m("ion-content.ion-padding.has-footer", mdl.modal.contents())
     ),
 })
 

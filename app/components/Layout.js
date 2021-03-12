@@ -46,41 +46,35 @@ const Footer = ({ attrs: { mdl } }) => {
   const Routes = mdl.routes.filter((r) => r.name.split("/").length == 1)
   return {
     view: ({ attrs: { mdl } }) => {
-      return m(
-        "ion-footer",
-        m(
-          "ion-toolbar",
-          m("ion-tabs", [
-            ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
-            m("ion-tab-bar", { slot: "bottom" }, [
-              ...Routes.map(({ name, icon }) =>
-                m(
-                  "ion-tab-button",
-                  {
-                    onclick: () => {
-                      mdl.state.id(null)
-                      mdl.state.title(null)
-                      m.route.set(`/${name}`)
-                    },
-                    tab: `${name}`,
-                  },
-                  [m("ion-label", name), m("ion-icon", { name: icon })]
-                )
-              ),
-              m(
-                "ion-tab-button",
-                {
-                  onclick: () => showSettings(mdl),
+      return m("ion-tabs", { slot: "bottom" }, [
+        ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
+        m("ion-tab-bar", { slot: "bottom" }, [
+          ...Routes.map(({ name, icon }) =>
+            m(
+              "ion-tab-button",
+              {
+                onclick: () => {
+                  mdl.state.id(null)
+                  mdl.state.title(null)
+                  m.route.set(`/${name}`)
                 },
-                [
-                  m("ion-label", "settings"),
-                  m("ion-icon", { name: "ellipsis-vertical-outline" }),
-                ]
-              ),
-            ]),
-          ])
-        )
-      )
+                tab: `${name}`,
+              },
+              [m("ion-label", name), m("ion-icon", { name: icon })]
+            )
+          ),
+          m(
+            "ion-tab-button",
+            {
+              onclick: () => showSettings(mdl),
+            },
+            [
+              m("ion-label", "settings"),
+              m("ion-icon", { name: "ellipsis-vertical-outline" }),
+            ]
+          ),
+        ]),
+      ])
     },
   }
 }

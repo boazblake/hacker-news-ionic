@@ -18,9 +18,20 @@ const Comment = {
       m(
         "ion-card-header",
         m(
-          "ion-toolbar",
-          m("ion-chip", { slot: "start", color: "primary" }, user),
-          m("ion-note", { slot: "end" }, time_ago)
+          "ion-grid",
+          m(
+            "ion-row.ion-justify-content-center.ion-align-items-center",
+            m(
+              "ion-col.",
+              // { slot: "start" },
+              m("ion-chip", { color: "primary" }, user)
+            ),
+            m(
+              "ion-col.",
+              // { slot: "end" },
+              m("ion-note", time_ago)
+            )
+          )
         )
       ),
       m(

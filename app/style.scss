@@ -3,13 +3,6 @@ ion-header ion-toolbar ion-title {
   padding-top: env(safe-area-inset-top);
 }
 
-@supports (padding-top:env(safe-area-inset-top)) {
-  ion-header ion-toolbar ion-title {
-    padding-top: 55px;
-  }
-
-}
-
 body {
   padding:
     env(safe-area-inset-top, 20px)
@@ -18,9 +11,16 @@ body {
     env(safe-area-inset-left, 20px);
 }
 
+.plt-mobile {
+  @supports (padding-top:env(safe-area-inset-top)) {
+    ion-header ion-toolbar  {
+      padding-top: 3.5%;
+    }
+  }
+}
+
 ion-header ion-toolbar, ion-tab-bar {
   height: 70px;
-
 }
 
 ion-tabs {

@@ -4,13 +4,18 @@ import UserModel from "./components/user-modal"
 import MarkdownIt from "markdown-it"
 
 const routes = [
-  { name: "news", icon: "newspaper-outline", component: Post },
-  { name: "newest", icon: "pulse-outline", component: Post },
-  { name: "ask", icon: "chatbox-ellipses-outline", component: Post },
-  { name: "show", icon: "eye-outline", component: Post },
-  { name: "jobs", icon: "body-outline", component: Post },
-  { name: "item/:key", icon: null, component: Comment },
-  { name: "user/:key", icon: null, component: Comment },
+  { title: "news", name: "news", icon: "newspaper-outline", component: Post },
+  { title: "top", name: "newest", icon: "pulse-outline", component: Post },
+  {
+    title: "ask",
+    name: "ask",
+    icon: "chatbox-ellipses-outline",
+    component: Post,
+  },
+  { title: "show", name: "show", icon: "eye-outline", component: Post },
+  { title: "jobs", name: "jobs", icon: "body-outline", component: Post },
+  { title: "", name: "item/:key", icon: null, component: Comment },
+  { title: "", name: "user/:key", icon: null, component: Comment },
 ]
 
 const url = (route) => (page) => {

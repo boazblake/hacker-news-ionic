@@ -4,7 +4,6 @@ const Posts = () => {
   return {
     oninit: ({ attrs: { mdl } }) => {
       mdl.state.id(null)
-      mdl.state.title(null)
       mdl.data.item = null
       if (!mdl.data[mdl.state.route]) {
         mdl.data[mdl.state.route] = { data: [], page: 1 }

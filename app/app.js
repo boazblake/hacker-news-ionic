@@ -1,3 +1,4 @@
+import { prop, propEq } from "ramda"
 import Layout from "./components/layout.js"
 
 const match = (mdl) => ({ title, key }, path) => {
@@ -8,7 +9,7 @@ const match = (mdl) => ({ title, key }, path) => {
     mdl.state.title(title)
     mdl.state.id(key)
   } else {
-    mdl.state.title(null)
+    mdl.state.title(prop("title", mdl.routes.find(propEq("name", route))))
     mdl.state.id(null)
   }
 }

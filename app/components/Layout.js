@@ -32,10 +32,7 @@ const Header = {
           : m(
               "ion-title.ion-text-center.ion-text-wrap",
               { size: "large" },
-              m(
-                "ion-label",
-                m("ion-text", m("h1", mdl.state.route.toUpperCase()))
-              )
+              m("ion-text", m("h1", mdl.state.title().toUpperCase()))
             )
       )
     )
@@ -49,18 +46,20 @@ const Footer = ({ attrs: { mdl } }) => {
       return m("ion-tabs", { slot: "bottom" }, [
         ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
         m("ion-tab-bar", { slot: "bottom" }, [
-          ...Routes.map(({ name, icon }) =>
+          ...Routes.map(({ title, name, icon }) =>
             m(
               "ion-tab-button",
               {
                 onclick: () => {
                   mdl.state.id(null)
-                  mdl.state.title(null)
                   m.route.set(`/${name}`)
                 },
                 tab: `${name}`,
               },
-              [m("ion-label", name), m("ion-icon", { name: icon })]
+              [
+                m("ion-label", title.toUpperCase()),
+                m("ion-icon", { name: icon }),
+              ]
             )
           ),
           m(
@@ -68,10 +67,7 @@ const Footer = ({ attrs: { mdl } }) => {
             {
               onclick: () => showSettings(mdl),
             },
-            [
-              m("ion-label", "settings"),
-              m("ion-icon", { name: "ellipsis-vertical-outline" }),
-            ]
+            [m("ion-icon", { name: "ellipsis-vertical-outline" })]
           ),
         ]),
       ])

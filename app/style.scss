@@ -1,9 +1,13 @@
-ion-navbar.toolbar.toolbar-ios.statusbar-padding,
-ion-navbar.toolbar-ios ion-title.title-ios,
-ion-toolbar.toolbar.toolbar-ios.statusbar-padding,
-ion-toolbar.toolbar-ios ion-title.title-ios {
-  padding-top: constant(safe-area-inset-top);
+ion-header ion-toolbar ion-title {
+  padding-top: env(safe-area-inset-top, 50px);
   padding-top: env(safe-area-inset-top);
+}
+
+@supports (padding-top:env(safe-area-inset-top)) {
+  ion-header ion-toolbar ion-title {
+    padding-top: 55px;
+  }
+
 }
 
 body {
@@ -16,6 +20,7 @@ body {
 
 ion-header ion-toolbar, ion-tab-bar {
   height: 70px;
+
 }
 
 ion-tabs {
@@ -27,22 +32,6 @@ ion-tabs {
 #post-list-card {
   min-width: 80vw;
   max-width: 80vw;
-}
-
-@media screen and (min-width: 668px) {
-  #post-list-card  {
-    min-width: 88vw;
-    max-width: 88vw;
-  }
-
-}
-
-@media screen and (min-width: 920px) {
-  #post-list-card  {
-    min-width: 88vw;
-    max-width: 88vw;
-  }
-
 }
 
 /*

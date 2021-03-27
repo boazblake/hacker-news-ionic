@@ -37,23 +37,24 @@ const Comment = {
       m(
         "ion-card-content",
         m.trust(mdl.markup.render(content)),
-        comments_count > 1 &&
-          m(
-            "ion-button",
-            {
-              expand: "full",
-              onclick: () => mdl.toggleComments({ mdl, key, level }),
-            },
-            [
-              `${comments_count} comments`,
-              state.showComments
-                ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
-                : m("ion-icon", {
-                    slot: "end",
-                    name: "chevron-down-outline",
-                  }),
-            ]
-          ),
+        comments_count
+          ? m(
+              "ion-button",
+              {
+                expand: "full",
+                onclick: () => mdl.toggleComments({ mdl, key, level }),
+              },
+              [
+                `${comments_count} comments`,
+                state.showComments
+                  ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
+                  : m("ion-icon", {
+                      slot: "end",
+                      name: "chevron-down-outline",
+                    }),
+              ]
+            )
+          : null,
         state.showComments &&
           comments.map((c, idx) =>
             m(Comment, {

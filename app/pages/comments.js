@@ -21,7 +21,7 @@ const Comments = () => {
               {
                 route,
               },
-              data.length == 0 && m("ion-progress-bar[type='indeterminate']"),
+              data.length && m("ion-progress-bar[type='indeterminate']"),
               m(
                 "ion-refresher",
                 {

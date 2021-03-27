@@ -60,7 +60,7 @@ const Post = {
             "ion-item",
             { lines: "none" },
             points && m("ion-badge", { slot: "end" }, `${points} pts`),
-            comments_count > 1 &&
+            comments_count > 0 &&
               m("ion-badge", { slot: "start" }, `${comments_count} comments`)
           )
         )

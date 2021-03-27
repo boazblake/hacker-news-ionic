@@ -43,34 +43,39 @@ const Footer = ({ attrs: { mdl } }) => {
   const Routes = mdl.routes.filter((r) => r.name.split("/").length == 1)
   return {
     view: ({ attrs: { mdl } }) => {
-      return m("ion-tabs", { slot: "bottom" }, [
-        ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
-        m("ion-tab-bar", { slot: "bottom" }, [
-          ...Routes.map(({ title, name, icon }) =>
+      return m(
+        "ion-footer.ion-no-border",
+        { slot: "bottom" },
+        m(
+          "ion-tabs",
+          ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
+          m("ion-tab-bar", { slot: "bottom" }, [
+            ...Routes.map(({ title, name, icon }) =>
+              m(
+                "ion-tab-button",
+                {
+                  onclick: () => {
+                    mdl.state.id(null)
+                    m.route.set(`/${name}`)
+                  },
+                  tab: `${name}`,
+                },
+                [
+                  m("ion-label", title.toUpperCase()),
+                  m("ion-icon", { name: icon }),
+                ]
+              )
+            ),
             m(
               "ion-tab-button",
               {
-                onclick: () => {
-                  mdl.state.id(null)
-                  m.route.set(`/${name}`)
-                },
-                tab: `${name}`,
+                onclick: () => showSettings(mdl),
               },
-              [
-                m("ion-label", title.toUpperCase()),
-                m("ion-icon", { name: icon }),
-              ]
-            )
-          ),
-          m(
-            "ion-tab-button",
-            {
-              onclick: () => showSettings(mdl),
-            },
-            [m("ion-icon", { name: "ellipsis-vertical-outline" })]
-          ),
-        ]),
-      ])
+              [m("ion-icon", { name: "ellipsis-vertical-outline" })]
+            ),
+          ])
+        )
+      )
     },
   }
 }

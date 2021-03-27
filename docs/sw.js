@@ -1,181 +1,43 @@
 /**
- * Welcome to your Workbox-powered service worker!
+ * Copyright 2016 Google Inc. All rights reserved.
  *
- * You'll need to register this file in your web app and you should
- * disable HTTP caching for this file too.
- * See https://goo.gl/nhQhGp
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * The rest of the code is auto-generated. Please don't update this file
- * directly; instead, make changes to your Workbox build configuration
- * and re-run your build process.
- * See https://goo.gl/2aRDsh
- */
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+// DO NOT EDIT THIS GENERATED OUTPUT DIRECTLY!
+// This file should be overwritten as part of your build process.
+// If you need to extend the behavior of the generated service worker, the best approach is to write
+// additional code and include it using the importScripts option:
+//   https://github.com/GoogleChrome/sw-precache#importscripts-arraystring
+//
+// Alternatively, it's possible to make changes to the underlying template file and then use that as the
+// new base for generating output, via the templateFilePath option:
+//   https://github.com/GoogleChrome/sw-precache#templatefilepath-string
+//
+// If you go that route, make sure that whenever you update your sw-precache dependency, you reconcile any
+// changes made to this original template file with your modified copy.
 
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
+// This generated service worker JavaScript will precache your site's resources.
+// The code needs to be saved in a .js file at the top-level of your site, and registered
+// from your pages in order to be used. See
+// https://github.com/googlechrome/sw-precache/blob/master/demo/app/js/service-worker-registration.js
+// for an example of how you can register this script and handle various service worker events.
 
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
-self.__precacheManifest = [
-  {
-    "url": "app.css",
-    "revision": "6bd8932d6c224ad256e993e80d790618"
-  },
-  {
-    "url": "app.css.map",
-    "revision": "d5f7ede151ccaed962412c561bcc0322"
-  },
-  {
-    "url": "app.js",
-    "revision": "0a1b64ddda392db948ebcff5979d1272"
-  },
-  {
-    "url": "app.js.map",
-    "revision": "b5fc87555a39ee5c7bd1bd8964df5295"
-  },
-  {
-    "url": "icons/android-icon-144x144.png",
-    "revision": "bfcb3696b794480d9bfb2cf68580dbca"
-  },
-  {
-    "url": "icons/android-icon-192x192.png",
-    "revision": "6df0b092a744dea6390986ca6d4e89fa"
-  },
-  {
-    "url": "icons/android-icon-36x36.png",
-    "revision": "1fa5497c6fa727695cdebba603b898f1"
-  },
-  {
-    "url": "icons/android-icon-48x48.png",
-    "revision": "b8786baff3da042cfc275dc529e11f20"
-  },
-  {
-    "url": "icons/android-icon-72x72.png",
-    "revision": "03e32e31e39daacd607a15b3d852992f"
-  },
-  {
-    "url": "icons/android-icon-96x96.png",
-    "revision": "2b0867c802d767e15919ece808225814"
-  },
-  {
-    "url": "icons/apple-icon-114x114.png",
-    "revision": "b1f310b6d398cb596a0dfcb3314c64d2"
-  },
-  {
-    "url": "icons/apple-icon-120x120.png",
-    "revision": "4a18109ac9426056727eaf518148d1b1"
-  },
-  {
-    "url": "icons/apple-icon-144x144.png",
-    "revision": "bfcb3696b794480d9bfb2cf68580dbca"
-  },
-  {
-    "url": "icons/apple-icon-152x152.png",
-    "revision": "f0c85eca7c03f6bdb09555ac6f7d458d"
-  },
-  {
-    "url": "icons/apple-icon-180x180.png",
-    "revision": "8f88a440ab6ddde3b9240a6a5ac56d3c"
-  },
-  {
-    "url": "icons/apple-icon-57x57.png",
-    "revision": "05f219ca92a2e85dc86e332c58c7e7b2"
-  },
-  {
-    "url": "icons/apple-icon-60x60.png",
-    "revision": "27ed8b64814c14c1c1ca5c34c63a6ea3"
-  },
-  {
-    "url": "icons/apple-icon-72x72.png",
-    "revision": "03e32e31e39daacd607a15b3d852992f"
-  },
-  {
-    "url": "icons/apple-icon-76x76.png",
-    "revision": "0ecd017e4ce40772ac43018678d768ee"
-  },
-  {
-    "url": "icons/apple-icon-precomposed.png",
-    "revision": "4adf0c5bbf52a004819346050f198cea"
-  },
-  {
-    "url": "icons/apple-icon.png",
-    "revision": "4adf0c5bbf52a004819346050f198cea"
-  },
-  {
-    "url": "icons/browserconfig.xml",
-    "revision": "653d077300a12f09a69caeea7a8947f8"
-  },
-  {
-    "url": "icons/favicon-16x16.png",
-    "revision": "d5e5c78252d32b15013dcfdf3c09b5a6"
-  },
-  {
-    "url": "icons/favicon-32x32.png",
-    "revision": "75d3ed27f09a93400a9b6047e2c5feb2"
-  },
-  {
-    "url": "icons/favicon-96x96.png",
-    "revision": "2b0867c802d767e15919ece808225814"
-  },
-  {
-    "url": "icons/favicon.ico",
-    "revision": "5087fabbcde133d64b59f2edc74bfc89"
-  },
-  {
-    "url": "icons/ms-icon-144x144.png",
-    "revision": "bfcb3696b794480d9bfb2cf68580dbca"
-  },
-  {
-    "url": "icons/ms-icon-150x150.png",
-    "revision": "54f40c08010cd055cd000e58f00b0c5c"
-  },
-  {
-    "url": "icons/ms-icon-310x310.png",
-    "revision": "a5ea8c0481b567ebc1742e030b1b6f17"
-  },
-  {
-    "url": "icons/ms-icon-70x70.png",
-    "revision": "9f906a6c91830c3668a457ed7425ebbc"
-  },
-  {
-    "url": "images/chevron-down-outline.svg",
-    "revision": "57ffe1072417a6893e5f156fb8a1f8a1"
-  },
-  {
-    "url": "images/chevron-up-outline.svg",
-    "revision": "e6c7c29e31243004da4f04931df0e14b"
-  },
-  {
-    "url": "images/favicon.png",
-    "revision": "449a978b5aac92d1ef96b303b1ce6178"
-  },
-  {
-    "url": "index.html",
-    "revision": "a8282564ebcfaa83e71ccff41cb91171"
-  },
-  {
-    "url": "manifest.json",
-    "revision": "90b7b0915dd7da8a517cc8eb00eccc79"
-  },
-  {
-    "url": "vendor.js",
-    "revision": "35371c33565f4c7b28284940a27b7d6f"
-  },
-  {
-    "url": "vendor.js.map",
-    "revision": "313bb2fb1439cee413c27b686526b3f8"
-  }
-].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+/* eslint-env worker, serviceworker */
+/* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
+'use strict';
 
+var precacheConfig = [["docs/app.css","638b4155234560f79e2f0d2804d63495"],["docs/app.js","c0885c1da1878da2b8db7d59a2a3453c"],["docs/icons/android-icon-144x144.png","bfcb3696b794480d9bfb2cf68580dbca"],["docs/icons/android-icon-192x192.png","6df0b092a744dea6390986ca6d4e89fa"],["docs/icons/android-icon-36x36.png","1fa5497c6fa727695cdebba603b898f1"],["docs/icons/android-icon-48x48.png","b8786baff3da042cfc275dc529e11f20"],["docs/icons/android-icon-72x72.png","03e32e31e39daacd607a15b3d852992f"],["docs/icons/android-icon-96x96.png","2b0867c802d767e15919ece808225814"],["docs/icons/apple-icon-114x114.png","b1f310b6d398cb596a0dfcb3314c64d2"],["docs/icons/apple-icon-120x120.png","4a18109ac9426056727eaf518148d1b1"],["docs/icons/apple-icon-144x144.png","bfcb3696b794480d9bfb2cf68580dbca"],["docs/icons/apple-icon-152x152.png","f0c85eca7c03f6bdb09555ac6f7d458d"],["docs/icons/apple-icon-180x180.png","8f88a440ab6ddde3b9240a6a5ac56d3c"],["docs/icons/apple-icon-57x57.png","05f219ca92a2e85dc86e332c58c7e7b2"],["docs/icons/apple-icon-60x60.png","27ed8b64814c14c1c1ca5c34c63a6ea3"],["docs/icons/apple-icon-72x72.png","03e32e31e39daacd607a15b3d852992f"],["docs/icons/apple-icon-76x76.png","0ecd017e4ce40772ac43018678d768ee"],["docs/icons/apple-icon-precomposed.png","4adf0c5bbf52a004819346050f198cea"],["docs/icons/apple-icon.png","4adf0c5bbf52a004819346050f198cea"],["docs/icons/browserconfig.xml","653d077300a12f09a69caeea7a8947f8"],["docs/icons/favicon-16x16.png","d5e5c78252d32b15013dcfdf3c09b5a6"],["docs/icons/favicon-32x32.png","75d3ed27f09a93400a9b6047e2c5feb2"],["docs/icons/favicon-96x96.png","2b0867c802d767e15919ece808225814"],["docs/icons/favicon.ico","5087fabbcde133d64b59f2edc74bfc89"],["docs/icons/ms-icon-144x144.png","bfcb3696b794480d9bfb2cf68580dbca"],["docs/icons/ms-icon-150x150.png","54f40c08010cd055cd000e58f00b0c5c"],["docs/icons/ms-icon-310x310.png","a5ea8c0481b567ebc1742e030b1b6f17"],["docs/icons/ms-icon-70x70.png","9f906a6c91830c3668a457ed7425ebbc"],["docs/images/chevron-down-outline.svg","57ffe1072417a6893e5f156fb8a1f8a1"],["docs/images/chevron-up-outline.svg","e6c7c29e31243004da4f04931df0e14b"],["docs/images/favicon.png","449a978b5aac92d1ef96b303b1ce6178"],["docs/index.html","a8282564ebcfaa83e71ccff41cb91171"],["docs/manifest.json","90b7b0915dd7da8a517cc8eb00eccc79"],["docs/vendor.js","dbfcc41e7e16d5d3e542d538d8ba341a"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 

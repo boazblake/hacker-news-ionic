@@ -42,7 +42,8 @@
     "sass-brunch": "3.0.0",
     "size-limit": "^4.5.0",
     "sw-precache-brunch": "^2.0.1",
-    "terser-brunch": "^4.0.0"
+    "terser-brunch": "^4.0.0",
+    "workbox-brunch": "^1.0.2"
   },
   "author": "boaz blake<boazblake@gmail.com>",
   "private": true

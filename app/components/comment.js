@@ -1,4 +1,8 @@
+const showComments = (mdl, key, level) =>
+  mdl.state.comment[`${key}-${level}`] || false
+
 const Comment = {
+  onremove: ({ attrs: { mdl } }) => (mdl.state.comment = {}),
   view: ({
     attrs: {
       key,
@@ -6,10 +10,6 @@ const Comment = {
       comment: { comments, comments_count, time_ago, content, level, user },
     },
   }) => {
-    let state = {
-      showComments: mdl.state.comment[`${key}-${level}`] || false,
-    }
-
     return m(
       "ion-card",
       {
@@ -23,14 +23,16 @@ const Comment = {
             "ion-row.ion-justify-content-center.ion-align-items-center",
             m(
               "ion-col.",
-              // { slot: "start" },
-              m("ion-chip", { color: "primary" }, user)
+              m(
+                "ion-chip",
+                {
+                  onclick: (e) => mdl.toggleUser(mdl)(user, e),
+                  color: "primary",
+                },
+                user
+              )
             ),
-            m(
-              "ion-col.",
-              // { slot: "end" },
-              m("ion-note", time_ago)
-            )
+            m("ion-col.", m("ion-note", time_ago))
           )
         )
       ),
@@ -46,7 +48,7 @@ const Comment = {
               },
               [
                 `${comments_count} comments`,
-                state.showComments
+                showComments(mdl, key, level)
                   ? m("ion-icon", { slot: "end", name: "chevron-up-outline" })
                   : m("ion-icon", {
                       slot: "end",
@@ -55,7 +57,7 @@ const Comment = {
               ]
             )
           : null,
-        state.showComments &&
+        showComments(mdl, key, level) &&
           comments.map((c, idx) =>
             m(Comment, {
               key: idx,

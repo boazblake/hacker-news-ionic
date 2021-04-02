@@ -57,6 +57,8 @@ const state = {
   comment: {},
   showModal: false,
   showUser: false,
+  showPopover: false,
+  event: null,
   user: { id: "" },
   mode: "light",
 }
@@ -69,10 +71,15 @@ const toggleComments = ({ mdl, key, level }) =>
     : (mdl.state.comment[`${key}-${level}`] = true)
 
 const toggleModal = (mdl) => (mdl.state.showModal = !mdl.state.showModal)
+const togglePopover = (e, mdl) => {
+  mdl.state.event = e
+  mdl.state.showPopover = !mdl.state.showPopover
+}
 
-const toggleUser = (mdl) => (id) => {
+const toggleUser = (mdl) => (id, e) => {
   mdl.state.user.id = id
   // mdl.state.showUser = !mdl.state.showUser
+  mdl.state.event = e
   mdl.modal.title(`User: ${id}`)
   mdl.modal.contents(UserModel.contents(mdl))
   mdl.modal.init = (mdl) => UserModel.init(mdl)
@@ -109,5 +116,6 @@ export const model = {
   state,
   toggleComments,
   toggleModal,
+  togglePopover,
   toggleUser,
 }

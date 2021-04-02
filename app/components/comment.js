@@ -2,7 +2,10 @@ const showComments = (mdl, key, level) =>
   mdl.state.comment[`${key}-${level}`] || false
 
 const Comment = {
-  onremove: ({ attrs: { mdl } }) => (mdl.state.comment = {}),
+  onremove: ({ attrs: { mdl } }) => {
+    console.log("mdl.state", mdl.state)
+    mdl.state.comment = {}
+  },
   view: ({
     attrs: {
       key,

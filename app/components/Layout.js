@@ -6,7 +6,7 @@ const Header = {
     return m(
       "ion-header",
       m(
-        "ion-toolbar",
+        "ion-toolbar.ion-justify-content-center.ion-align-items-center",
         mdl.state.id()
           ? [
               m(

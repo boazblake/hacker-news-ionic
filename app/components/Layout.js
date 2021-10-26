@@ -85,11 +85,12 @@ const Layout = ({ attrs: { mdl } }) => {
     view: ({ children }) =>
       m(
         "ion-app",
-        children && [
-          m(Header, { mdl }),
-          m("ion-content", { fullscreen: true }, children),
-          m(Footer, { mdl }),
-        ]
+        children &&
+          m("ion-page", [
+            m(Header, { mdl }),
+            m("ion-content", { fullscreen: true }, children),
+            m(Footer, { mdl }),
+          ])
       ),
   }
 }

@@ -11,23 +11,21 @@ body {
     env(safe-area-inset-left, 20px);
 }
 
-.plt-mobile {
-  @supports (padding-top:env(safe-area-inset-top)) {
-    ion-header ion-toolbar  {
-      padding-top: 3.5%;
-    }
-  }
-}
+// .plt-mobile {
+//   @supports (padding-top:env(safe-area-inset-top)) {
+//     ion-header ion-toolbar  {
+//       padding-top: 3.5%;
+//     }
+//   }
+// }
 
-ion-header ion-toolbar, ion-tab-bar {
-  height: 70px;
-}
+// ion-header ion-toolbar, ion-tab-bar {
+//   height: 70px;
+// }
 
-ion-tabs  {
-  position: relative !important;
-  bottom:0 !important;
-  max-height: inherit;
-}
+// ion-tabs  {
+//   max-height: inherit;
+// }
 
 #post-list-card {
   min-width: 80vw;

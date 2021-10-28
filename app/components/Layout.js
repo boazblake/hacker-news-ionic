@@ -47,33 +47,36 @@ const Footer = ({ attrs: { mdl } }) => {
         "ion-footer.ion-no-border",
         { slot: "bottom" },
         m(
-          "ion-tabs",
-          ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
-          m("ion-tab-bar", { slot: "bottom" }, [
-            ...Routes.map(({ title, name, icon }) =>
+          "ion-toolbar",
+          m(
+            "ion-tabs",
+            ...Routes.map(({ name }) => m("ion-tab", { tab: `${name}` })),
+            m("ion-tab-bar", { slot: "bottom" }, [
+              ...Routes.map(({ title, name, icon }) =>
+                m(
+                  "ion-tab-button",
+                  {
+                    onclick: () => {
+                      mdl.state.id(null)
+                      m.route.set(`/${name}`)
+                    },
+                    tab: `${name}`,
+                  },
+                  [
+                    m("ion-label", title.toUpperCase()),
+                    m("ion-icon", { name: icon }),
+                  ]
+                )
+              ),
               m(
                 "ion-tab-button",
                 {
-                  onclick: () => {
-                    mdl.state.id(null)
-                    m.route.set(`/${name}`)
-                  },
-                  tab: `${name}`,
+                  onclick: () => showSettings(mdl),
                 },
-                [
-                  m("ion-label", title.toUpperCase()),
-                  m("ion-icon", { name: icon }),
-                ]
-              )
-            ),
-            m(
-              "ion-tab-button",
-              {
-                onclick: () => showSettings(mdl),
-              },
-              [m("ion-icon", { name: "ellipsis-vertical-outline" })]
-            ),
-          ])
+                [m("ion-icon", { name: "ellipsis-vertical-outline" })]
+              ),
+            ])
+          )
         )
       )
     },
@@ -85,12 +88,11 @@ const Layout = ({ attrs: { mdl } }) => {
     view: ({ children }) =>
       m(
         "ion-app",
-        children &&
-          m("ion-page", [
-            m(Header, { mdl }),
-            m("ion-content", { fullscreen: true }, children),
-            m(Footer, { mdl }),
-          ])
+        children && [
+          m(Header, { mdl }),
+          m("ion-content", { fullscreen: true }, children),
+          m(Footer, { mdl }),
+        ]
       ),
   }
 }
